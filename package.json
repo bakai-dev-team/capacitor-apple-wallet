@@ -1,29 +1,32 @@
 {
   "name": "capacitor-apple-wallet",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "In-App Provisioning payment cards within an app, without having to go through the process of manually entering payment card details.",
-  "main": "dist/plugin.cjs.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/esm/index.d.ts",
-  "unpkg": "dist/plugin.js",
-  "files": [
-    "dist/",
-    "ios/Plugin/",
-    "CapacitorAppleWallet.podspec"
-  ],
-  "author": "Bakai Dev Team",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/bakai-dev-team/capacitor-apple-wallet.git"
-  },
-  "bugs": {
-    "url": "https://github.com/bakai-dev-team/capacitor-apple-wallet/issues"
-  },
   "keywords": [
     "capacitor",
     "plugin",
     "native"
+  ],
+  "homepage": "https://github.com/bakai-dev-team/capacitor-apple-wallet#readme",
+  "bugs": {
+    "url": "https://github.com/bakai-dev-team/capacitor-apple-wallet/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bakai-dev-team/capacitor-apple-wallet.git"
+  },
+  "license": "MIT",
+  "author": "Bakai Dev Team",
+  "type": "commonjs",
+  "main": "dist/plugin.cjs.js",
+  "types": "dist/esm/index.d.ts",
+  "directories": {
+    "example": "example"
+  },
+  "files": [
+    "dist/",
+    "ios/Plugin/",
+    "CapacitorAppleWallet.podspec"
   ],
   "scripts": {
     "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",
@@ -62,6 +65,8 @@
   "peerDependencies": {
     "@capacitor/core": ">=8.0.0"
   },
+  "module": "dist/esm/index.js",
+  "unpkg": "dist/plugin.js",
   "prettier": "@ionic/prettier-config",
   "swiftlint": "@ionic/swiftlint-config",
   "eslintConfig": {
