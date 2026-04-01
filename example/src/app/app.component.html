@@ -31,10 +31,7 @@
           <div class="form-grid">
             <ion-item>
               <ion-label position="stacked">Backend URL</ion-label>
-              <ion-input
-                [(ngModel)]="backendUrl"
-                type="url"
-              ></ion-input>
+              <ion-input [(ngModel)]="backendUrl" type="url"></ion-input>
             </ion-item>
             <ion-item>
               <ion-label position="stacked">Bearer Token</ion-label>
@@ -71,7 +68,35 @@
 
       <ion-card>
         <ion-card-header>
-          <ion-card-title>2. Start Apple Wallet Provisioning</ion-card-title>
+          <ion-card-title>2. Check Apple Wallet Status</ion-card-title>
+          <ion-card-subtitle>
+            Checks whether the card is already provisioned on this iPhone or on
+            a paired device by using the Primary Account Identifier.
+          </ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="stack">
+            <ion-item>
+              <ion-label position="stacked"
+                >Primary Account Identifier</ion-label
+              >
+              <ion-input
+                [(ngModel)]="primaryAccountIdentifier"
+                type="text"
+                placeholder="backend card identifier"
+              ></ion-input>
+            </ion-item>
+            <ion-button expand="block" (click)="checkIsTokenized()">
+              Call isTokenized()
+            </ion-button>
+            <pre class="output-block">{{ cardProvisioningStatus }}</pre>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>3. Start Apple Wallet Provisioning</ion-card-title>
           <ion-card-subtitle>
             Native sends certificates, nonce and nonceSignature back to the app
             through an event.
@@ -102,14 +127,6 @@
               </ion-select>
             </ion-item>
             <ion-item>
-              <ion-label position="stacked">Primary Account Identifier</ion-label>
-              <ion-input
-                [(ngModel)]="primaryAccountIdentifier"
-                type="text"
-                placeholder="backend card identifier"
-              ></ion-input>
-            </ion-item>
-            <ion-item>
               <ion-label position="stacked">Localized Description</ion-label>
               <ion-input
                 [(ngModel)]="localizedDescription"
@@ -119,7 +136,9 @@
           </div>
 
           <div class="action-grid">
-            <ion-button (click)="startProvisioning()">Start startProvisioning()</ion-button>
+            <ion-button (click)="startProvisioning()"
+              >Start startProvisioning()</ion-button
+            >
             <ion-button color="medium" (click)="sendMockProvisioningResponse()">
               Send Mock completeProvisioning()
             </ion-button>

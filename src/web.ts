@@ -5,6 +5,8 @@ import type {
   AppleWalletPlugin,
   CancelProvisioningOptions,
   CompleteProvisioningOptions,
+  IsTokenizedOptions,
+  IsTokenizedResult,
   StartProvisioningOptions,
 } from './definitions';
 
@@ -16,12 +18,19 @@ export class AppleWalletWeb extends WebPlugin implements AppleWalletPlugin {
     throw this.unavailable('Apple Wallet is available only on iOS.');
   }
 
-  async completeProvisioning(options: CompleteProvisioningOptions): Promise<void> {
+  async completeProvisioning(
+    options: CompleteProvisioningOptions,
+  ): Promise<void> {
     void options;
     throw this.unavailable('Apple Wallet is available only on iOS.');
   }
 
   async cancelProvisioning(options?: CancelProvisioningOptions): Promise<void> {
+    void options;
+    throw this.unavailable('Apple Wallet is available only on iOS.');
+  }
+
+  async isTokenized(options: IsTokenizedOptions): Promise<IsTokenizedResult> {
     void options;
     throw this.unavailable('Apple Wallet is available only on iOS.');
   }

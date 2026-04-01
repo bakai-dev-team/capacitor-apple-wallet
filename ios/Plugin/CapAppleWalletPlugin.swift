@@ -21,6 +21,29 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
     private var pendingRequestHandler: ((PKAddPaymentPassRequest) -> Void)?
     private var pendingProvisioningError: String?
 
+    @objc func isTokenized(_ call: CAPPluginCall) {
+        do {
+            let primaryAccountIdentifier = try requireString(call: call, key: "primaryAccountIdentifier")
+            let passLibrary = PKPassLibrary()
+            let localPasses = passLibrary.passes(of: .secureElement).compactMap { $0 as? PKSecureElementPass }
+            let remotePasses = passLibrary.remoteSecureElementPasses
+
+            let foundOnLocalDevice = localPasses.contains {
+                $0.primaryAccountIdentifier == primaryAccountIdentifier
+            }
+            let foundOnRemoteDevice = remotePasses.contains {
+                $0.primaryAccountIdentifier == primaryAccountIdentifier
+            }
+            let isTokenized = foundOnLocalDevice || foundOnRemoteDevice
+
+            call.resolve([
+                "isTokenized": isTokenized
+            ])
+        } catch {
+            call.reject(error.localizedDescription, "INVALID_ARGUMENTS")
+        }
+    }
+
     @objc func startProvisioning(_ call: CAPPluginCall) {
         if activeCall != nil {
             call.reject("Another Apple Wallet provisioning flow is already running.", "ALREADY_IN_PROGRESS")
@@ -113,7 +136,7 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
             "primaryAccountIdentifier": context.primaryAccountIdentifier,
             "certificates": certificates.map { $0.base64EncodedString() },
             "nonce": nonce.base64EncodedString(),
-            "nonceSignature": nonceSignature.base64EncodedString(),
+            "nonceSignature": nonceSignature.base64EncodedString()
         ])
     }
 
@@ -147,7 +170,7 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
 
                 guard let pass else {
                     call.resolve([
-                        "status": "canceled",
+                        "status": "canceled"
                     ])
                     return
                 }
@@ -157,7 +180,7 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
                     "primaryAccountIdentifier": pass.primaryAccountIdentifier ?? NSNull(),
                     "primaryAccountNumberSuffix": pass.primaryAccountNumberSuffix,
                     "deviceAccountIdentifier": pass.deviceAccountIdentifier ?? NSNull(),
-                    "deviceAccountNumberSuffix": pass.deviceAccountNumberSuffix ?? NSNull(),
+                    "deviceAccountNumberSuffix": pass.deviceAccountNumberSuffix ?? NSNull()
                 ])
             }
         }
@@ -214,6 +237,9 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
         return data
     }
 
+    // SwiftLint flags this compatibility mapper as too complex because of
+    // availability-gated payment networks, but the explicit switch is clearer here.
+    // swiftlint:disable:next cyclomatic_complexity function_body_length
     private func getNetwork(paymentNetwork: Int) -> PKPaymentNetwork {
         switch paymentNetwork {
         case 0:

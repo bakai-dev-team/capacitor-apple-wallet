@@ -7,4 +7,5 @@ CAP_PLUGIN(CapAppleWalletPlugin, "AppleWallet",
            CAP_PLUGIN_METHOD(startProvisioning, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(completeProvisioning, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(cancelProvisioning, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(isTokenized, CAPPluginReturnPromise);
 )

@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import type { OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Capacitor, type PluginListenerHandle } from '@capacitor/core';
+import { Capacitor } from '@capacitor/core';
+import type { PluginListenerHandle } from '@capacitor/core';
 import { SplashScreen } from '@capacitor/splash-screen';
 import {
   IonApp,
@@ -66,6 +68,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   platformLabel = 'loading...';
   digitizedResult = 'No request sent yet.';
+  cardProvisioningStatus = 'No Apple Wallet status check yet.';
   provisioningEvent = 'Waiting for walletProvisioningData...';
   provisioningResult = 'No provisioning action started yet.';
   requestLog = 'No backend calls yet.';
@@ -127,6 +130,20 @@ export class AppComponent implements OnInit, OnDestroy {
       this.provisioningResult = this.pretty(result);
     } catch (error) {
       this.provisioningResult = this.pretty({
+        error: error instanceof Error ? error.message : 'Unknown error',
+      });
+    }
+  }
+
+  async checkIsTokenized(): Promise<void> {
+    try {
+      const result = await AppleWallet.isTokenized({
+        primaryAccountIdentifier: this.primaryAccountIdentifier.trim(),
+      });
+
+      this.cardProvisioningStatus = this.pretty(result);
+    } catch (error) {
+      this.cardProvisioningStatus = this.pretty({
         error: error instanceof Error ? error.message : 'Unknown error',
       });
     }
@@ -204,7 +221,9 @@ export class AppComponent implements OnInit, OnDestroy {
           });
         } catch (error) {
           const message =
-            error instanceof Error ? error.message : 'Provisioning backend request failed.';
+            error instanceof Error
+              ? error.message
+              : 'Provisioning backend request failed.';
 
           await AppleWallet.cancelProvisioning({ reason: message });
 
@@ -236,7 +255,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.appendLog(`Response: ${method}`, payload);
 
     if (!response.ok) {
-      throw new Error(payload.message || payload.error || `HTTP ${response.status}`);
+      throw new Error(
+        payload.message || payload.error || `HTTP ${response.status}`,
+      );
     }
 
     return payload;
@@ -245,7 +266,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private getBackendHeaders(): Record<string, string> {
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
-      Accept: 'application/json',
+      'Accept': 'application/json',
     };
 
     const token = this.authToken.trim();

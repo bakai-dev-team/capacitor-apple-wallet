@@ -9,6 +9,20 @@ npm install capacitor-apple-wallet
 npx cap sync
 ```
 
+## Quick Example
+
+```typescript
+import { AppleWallet } from 'capacitor-apple-wallet';
+
+const status = await AppleWallet.isTokenized({
+  primaryAccountIdentifier: '6854707',
+});
+
+if (status.isTokenized) {
+  console.log('Card is already available in Apple Wallet');
+}
+```
+
 ## API
 
 <docgen-index>
@@ -16,6 +30,7 @@ npx cap sync
 * [`startProvisioning(...)`](#startprovisioning)
 * [`completeProvisioning(...)`](#completeprovisioning)
 * [`cancelProvisioning(...)`](#cancelprovisioning)
+* [`isTokenized(...)`](#istokenized)
 * [`addListener('walletProvisioningData', ...)`](#addlistenerwalletprovisioningdata)
 * [`removeAllListeners()`](#removealllisteners)
 * [Interfaces](#interfaces)
@@ -65,6 +80,21 @@ cancelProvisioning(options?: CancelProvisioningOptions | undefined) => any
 | Param         | Type                                                                            |
 | ------------- | ------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#cancelprovisioningoptions">CancelProvisioningOptions</a></code> |
+
+**Returns:** <code>any</code>
+
+--------------------
+
+
+### isTokenized(...)
+
+```typescript
+isTokenized(options: IsTokenizedOptions) => any
+```
+
+| Param         | Type                                                              |
+| ------------- | ----------------------------------------------------------------- |
+| **`options`** | <code><a href="#istokenizedoptions">IsTokenizedOptions</a></code> |
 
 **Returns:** <code>any</code>
 
@@ -137,6 +167,20 @@ removeAllListeners() => any
 | Prop         | Type                |
 | ------------ | ------------------- |
 | **`reason`** | <code>string</code> |
+
+
+#### IsTokenizedOptions
+
+| Prop                           | Type                |
+| ------------------------------ | ------------------- |
+| **`primaryAccountIdentifier`** | <code>string</code> |
+
+
+#### IsTokenizedResult
+
+| Prop              | Type                 |
+| ----------------- | -------------------- |
+| **`isTokenized`** | <code>boolean</code> |
 
 
 #### ProvisioningDataEvent

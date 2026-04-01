@@ -45,6 +45,14 @@ export interface CancelProvisioningOptions {
   reason?: string;
 }
 
+export interface IsTokenizedOptions {
+  primaryAccountIdentifier: string;
+}
+
+export interface IsTokenizedResult {
+  isTokenized: boolean;
+}
+
 export interface AddCardResult {
   status: 'added' | 'canceled';
   primaryAccountIdentifier?: string;
@@ -59,6 +67,8 @@ export interface AppleWalletPlugin {
   completeProvisioning(options: CompleteProvisioningOptions): Promise<void>;
 
   cancelProvisioning(options?: CancelProvisioningOptions): Promise<void>;
+
+  isTokenized(options: IsTokenizedOptions): Promise<IsTokenizedResult>;
 
   addListener(
     eventName: 'walletProvisioningData',
