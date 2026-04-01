@@ -1,10 +1,28 @@
 import { WebPlugin } from '@capacitor/core';
 
-import type { AppleWalletPlugin } from './definitions';
+import type {
+  AddCardResult,
+  AppleWalletPlugin,
+  CancelProvisioningOptions,
+  CompleteProvisioningOptions,
+  StartProvisioningOptions,
+} from './definitions';
 
 export class AppleWalletWeb extends WebPlugin implements AppleWalletPlugin {
-  async echo(options: { value: string }): Promise<{ value: string }> {
-    console.log('ECHO', options);
-    return options;
+  async startProvisioning(
+    options: StartProvisioningOptions,
+  ): Promise<AddCardResult> {
+    void options;
+    throw this.unavailable('Apple Wallet is available only on iOS.');
+  }
+
+  async completeProvisioning(options: CompleteProvisioningOptions): Promise<void> {
+    void options;
+    throw this.unavailable('Apple Wallet is available only on iOS.');
+  }
+
+  async cancelProvisioning(options?: CancelProvisioningOptions): Promise<void> {
+    void options;
+    throw this.unavailable('Apple Wallet is available only on iOS.');
   }
 }

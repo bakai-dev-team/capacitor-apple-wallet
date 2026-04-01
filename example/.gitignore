@@ -1,5 +1,6 @@
 .idea/
 node_modules/
+.angular/
 .vscode/
 *.map
 .DS_Store

@@ -13,25 +13,172 @@ npx cap sync
 
 <docgen-index>
 
-* [`echo(...)`](#echo)
+* [`startProvisioning(...)`](#startprovisioning)
+* [`completeProvisioning(...)`](#completeprovisioning)
+* [`cancelProvisioning(...)`](#cancelprovisioning)
+* [`addListener('walletProvisioningData', ...)`](#addlistenerwalletprovisioningdata)
+* [`removeAllListeners()`](#removealllisteners)
+* [Interfaces](#interfaces)
+* [Enums](#enums)
 
 </docgen-index>
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
 
-### echo(...)
+### startProvisioning(...)
 
 ```typescript
-echo(options: { value: string; }) => any
+startProvisioning(options: StartProvisioningOptions) => any
 ```
 
-| Param         | Type                            |
-| ------------- | ------------------------------- |
-| **`options`** | <code>{ value: string; }</code> |
+| Param         | Type                                                                          |
+| ------------- | ----------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#startprovisioningoptions">StartProvisioningOptions</a></code> |
 
 **Returns:** <code>any</code>
 
 --------------------
+
+
+### completeProvisioning(...)
+
+```typescript
+completeProvisioning(options: CompleteProvisioningOptions) => any
+```
+
+| Param         | Type                                                                                |
+| ------------- | ----------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#completeprovisioningoptions">CompleteProvisioningOptions</a></code> |
+
+**Returns:** <code>any</code>
+
+--------------------
+
+
+### cancelProvisioning(...)
+
+```typescript
+cancelProvisioning(options?: CancelProvisioningOptions | undefined) => any
+```
+
+| Param         | Type                                                                            |
+| ------------- | ------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#cancelprovisioningoptions">CancelProvisioningOptions</a></code> |
+
+**Returns:** <code>any</code>
+
+--------------------
+
+
+### addListener('walletProvisioningData', ...)
+
+```typescript
+addListener(eventName: 'walletProvisioningData', listenerFunc: (event: ProvisioningDataEvent) => void) => any
+```
+
+| Param              | Type                                                                                        |
+| ------------------ | ------------------------------------------------------------------------------------------- |
+| **`eventName`**    | <code>'walletProvisioningData'</code>                                                       |
+| **`listenerFunc`** | <code>(event: <a href="#provisioningdataevent">ProvisioningDataEvent</a>) =&gt; void</code> |
+
+**Returns:** <code>any</code>
+
+--------------------
+
+
+### removeAllListeners()
+
+```typescript
+removeAllListeners() => any
+```
+
+**Returns:** <code>any</code>
+
+--------------------
+
+
+### Interfaces
+
+
+#### StartProvisioningOptions
+
+| Prop                           | Type                                                      |
+| ------------------------------ | --------------------------------------------------------- |
+| **`cardholderName`**           | <code>string</code>                                       |
+| **`primaryAccountSuffix`**     | <code>string</code>                                       |
+| **`paymentNetwork`**           | <code><a href="#paymentnetwork">PaymentNetwork</a></code> |
+| **`primaryAccountIdentifier`** | <code>string</code>                                       |
+| **`localizedDescription`**     | <code>string</code>                                       |
+
+
+#### AddCardResult
+
+| Prop                             | Type                               |
+| -------------------------------- | ---------------------------------- |
+| **`status`**                     | <code>'added' \| 'canceled'</code> |
+| **`primaryAccountIdentifier`**   | <code>string</code>                |
+| **`primaryAccountNumberSuffix`** | <code>string</code>                |
+| **`deviceAccountIdentifier`**    | <code>string</code>                |
+| **`deviceAccountNumberSuffix`**  | <code>string</code>                |
+
+
+#### CompleteProvisioningOptions
+
+| Prop                     | Type                |
+| ------------------------ | ------------------- |
+| **`activationData`**     | <code>string</code> |
+| **`encryptedPassData`**  | <code>string</code> |
+| **`ephemeralPublicKey`** | <code>string</code> |
+
+
+#### CancelProvisioningOptions
+
+| Prop         | Type                |
+| ------------ | ------------------- |
+| **`reason`** | <code>string</code> |
+
+
+#### ProvisioningDataEvent
+
+| Prop                           | Type                |
+| ------------------------------ | ------------------- |
+| **`primaryAccountIdentifier`** | <code>string</code> |
+| **`certificates`**             | <code>{}</code>     |
+| **`nonce`**                    | <code>string</code> |
+| **`nonceSignature`**           | <code>string</code> |
+
+
+#### PluginListenerHandle
+
+| Prop         | Type                      |
+| ------------ | ------------------------- |
+| **`remove`** | <code>() =&gt; any</code> |
+
+
+### Enums
+
+
+#### PaymentNetwork
+
+| Members            |
+| ------------------ |
+| **`interac`**      |
+| **`JCB`**          |
+| **`mada`**         |
+| **`maestro`**      |
+| **`masterCard`**   |
+| **`mir`**          |
+| **`privateLabel`** |
+| **`quicPay`**      |
+| **`suica`**        |
+| **`visa`**         |
+| **`vPay`**         |
+| **`barcode`**      |
+| **`girocard`**     |
+| **`waon`**         |
+| **`nanaco`**       |
+| **`postFinance`**  |
+| **`tmoney`**       |
 
 </docgen-api>

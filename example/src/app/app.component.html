@@ -1,0 +1,155 @@
+<ion-app>
+  <ion-header translucent="true">
+    <ion-toolbar>
+      <ion-title>Apple Wallet Example</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content fullscreen="true">
+    <div class="page-shell">
+      <section class="hero-card">
+        <p class="eyebrow">Capacitor Apple Wallet</p>
+        <h1>Two-step provisioning on a single Ionic Angular page</h1>
+        <p class="intro">
+          The plugin owns the native Apple Wallet controller. The Angular app
+          owns the backend request, auth headers, and extra business payload.
+        </p>
+        <div class="platform-badge">
+          Platform:
+          <strong>{{ platformLabel }}</strong>
+        </div>
+      </section>
+
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Backend Settings</ion-card-title>
+          <ion-card-subtitle>
+            These values stay in the application layer.
+          </ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="form-grid">
+            <ion-item>
+              <ion-label position="stacked">Backend URL</ion-label>
+              <ion-input
+                [(ngModel)]="backendUrl"
+                type="url"
+              ></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Bearer Token</ion-label>
+              <ion-input
+                [(ngModel)]="authToken"
+                type="text"
+                placeholder="your mobile access token"
+              ></ion-input>
+            </ion-item>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>1. Check Digitized Cards</ion-card-title>
+          <ion-card-subtitle>
+            This backend method should be called directly by the app.
+          </ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="stack">
+            <ion-item>
+              <ion-label position="stacked">FPANs</ion-label>
+              <ion-input [(ngModel)]="fpans" type="text"></ion-input>
+            </ion-item>
+            <ion-button expand="block" (click)="checkDigitizedCards()">
+              Call apple_get_digitized_card_ids
+            </ion-button>
+            <pre class="output-block">{{ digitizedResult }}</pre>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>2. Start Apple Wallet Provisioning</ion-card-title>
+          <ion-card-subtitle>
+            Native sends certificates, nonce and nonceSignature back to the app
+            through an event.
+          </ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="form-grid">
+            <ion-item>
+              <ion-label position="stacked">Cardholder Name</ion-label>
+              <ion-input [(ngModel)]="cardholderName" type="text"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Primary Account Suffix</ion-label>
+              <ion-input
+                [(ngModel)]="primaryAccountSuffix"
+                type="text"
+              ></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Payment Network</ion-label>
+              <ion-select [(ngModel)]="paymentNetwork">
+                <ion-select-option
+                  *ngFor="let option of paymentNetworkOptions"
+                  [value]="option.value"
+                >
+                  {{ option.label }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Primary Account Identifier</ion-label>
+              <ion-input
+                [(ngModel)]="primaryAccountIdentifier"
+                type="text"
+                placeholder="backend card identifier"
+              ></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Localized Description</ion-label>
+              <ion-input
+                [(ngModel)]="localizedDescription"
+                type="text"
+              ></ion-input>
+            </ion-item>
+          </div>
+
+          <div class="action-grid">
+            <ion-button (click)="startProvisioning()">Start startProvisioning()</ion-button>
+            <ion-button color="medium" (click)="sendMockProvisioningResponse()">
+              Send Mock completeProvisioning()
+            </ion-button>
+            <ion-button fill="outline" (click)="cancelProvisioning()">
+              Cancel Pending Provisioning
+            </ion-button>
+          </div>
+
+          <div class="stack">
+            <div>
+              <h3>Provisioning Event From Native</h3>
+              <pre class="output-block">{{ provisioningEvent }}</pre>
+            </div>
+
+            <div>
+              <h3>Provisioning Result</h3>
+              <pre class="output-block">{{ provisioningResult }}</pre>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Request Log</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <pre class="output-block">{{ requestLog }}</pre>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </ion-content>
+</ion-app>
