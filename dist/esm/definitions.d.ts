@@ -1,0 +1,62 @@
+import type { PluginListenerHandle } from '@capacitor/core';
+export declare enum PaymentNetwork {
+    interac = 0,
+    JCB = 1,
+    mada = 2,
+    maestro = 3,
+    masterCard = 4,
+    mir = 5,
+    privateLabel = 6,
+    quicPay = 7,
+    suica = 8,
+    visa = 9,
+    vPay = 10,
+    barcode = 11,
+    girocard = 12,
+    waon = 13,
+    nanaco = 14,
+    postFinance = 15,
+    tmoney = 16
+}
+export interface StartProvisioningOptions {
+    cardholderName: string;
+    primaryAccountSuffix: string;
+    paymentNetwork: PaymentNetwork;
+    primaryAccountIdentifier: string;
+    localizedDescription?: string;
+}
+export interface ProvisioningDataEvent {
+    primaryAccountIdentifier: string;
+    certificates: string[];
+    nonce: string;
+    nonceSignature: string;
+}
+export interface CompleteProvisioningOptions {
+    activationData: string;
+    encryptedPassData: string;
+    ephemeralPublicKey: string;
+}
+export interface CancelProvisioningOptions {
+    reason?: string;
+}
+export interface IsTokenizedOptions {
+    primaryAccountIdentifier: string;
+}
+export interface IsTokenizedResult {
+    isTokenized: boolean;
+}
+export interface AddCardResult {
+    status: 'added' | 'canceled';
+    primaryAccountIdentifier?: string;
+    primaryAccountNumberSuffix?: string;
+    deviceAccountIdentifier?: string;
+    deviceAccountNumberSuffix?: string;
+}
+export interface AppleWalletPlugin {
+    startProvisioning(options: StartProvisioningOptions): Promise<AddCardResult>;
+    completeProvisioning(options: CompleteProvisioningOptions): Promise<void>;
+    cancelProvisioning(options?: CancelProvisioningOptions): Promise<void>;
+    isTokenized(options: IsTokenizedOptions): Promise<IsTokenizedResult>;
+    addListener(eventName: 'walletProvisioningData', listenerFunc: (event: ProvisioningDataEvent) => void): Promise<PluginListenerHandle>;
+    removeAllListeners(): Promise<void>;
+}

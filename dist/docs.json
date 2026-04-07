@@ -1,0 +1,437 @@
+{
+  "api": {
+    "name": "AppleWalletPlugin",
+    "slug": "applewalletplugin",
+    "docs": "",
+    "tags": [],
+    "methods": [
+      {
+        "name": "startProvisioning",
+        "signature": "(options: StartProvisioningOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "StartProvisioningOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [
+          "StartProvisioningOptions",
+          "AddCardResult"
+        ],
+        "slug": "startprovisioning"
+      },
+      {
+        "name": "completeProvisioning",
+        "signature": "(options: CompleteProvisioningOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "CompleteProvisioningOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [
+          "CompleteProvisioningOptions"
+        ],
+        "slug": "completeprovisioning"
+      },
+      {
+        "name": "cancelProvisioning",
+        "signature": "(options?: CancelProvisioningOptions | undefined) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "CancelProvisioningOptions | undefined"
+          }
+        ],
+        "returns": "any",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [
+          "CancelProvisioningOptions"
+        ],
+        "slug": "cancelprovisioning"
+      },
+      {
+        "name": "isTokenized",
+        "signature": "(options: IsTokenizedOptions) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "IsTokenizedOptions"
+          }
+        ],
+        "returns": "any",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [
+          "IsTokenizedOptions",
+          "IsTokenizedResult"
+        ],
+        "slug": "istokenized"
+      },
+      {
+        "name": "addListener",
+        "signature": "(eventName: 'walletProvisioningData', listenerFunc: (event: ProvisioningDataEvent) => void) => any",
+        "parameters": [
+          {
+            "name": "eventName",
+            "docs": "",
+            "type": "'walletProvisioningData'"
+          },
+          {
+            "name": "listenerFunc",
+            "docs": "",
+            "type": "(event: ProvisioningDataEvent) => void"
+          }
+        ],
+        "returns": "any",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [
+          "ProvisioningDataEvent",
+          "PluginListenerHandle"
+        ],
+        "slug": "addlistenerwalletprovisioningdata"
+      },
+      {
+        "name": "removeAllListeners",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "removealllisteners"
+      }
+    ],
+    "properties": []
+  },
+  "interfaces": [
+    {
+      "name": "StartProvisioningOptions",
+      "slug": "startprovisioningoptions",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "cardholderName",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "primaryAccountSuffix",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "paymentNetwork",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [
+            "PaymentNetwork"
+          ],
+          "type": "PaymentNetwork"
+        },
+        {
+          "name": "primaryAccountIdentifier",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "localizedDescription",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        }
+      ]
+    },
+    {
+      "name": "AddCardResult",
+      "slug": "addcardresult",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "status",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "'added' | 'canceled'"
+        },
+        {
+          "name": "primaryAccountIdentifier",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "primaryAccountNumberSuffix",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "deviceAccountIdentifier",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "deviceAccountNumberSuffix",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        }
+      ]
+    },
+    {
+      "name": "CompleteProvisioningOptions",
+      "slug": "completeprovisioningoptions",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "activationData",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "encryptedPassData",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "ephemeralPublicKey",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "CancelProvisioningOptions",
+      "slug": "cancelprovisioningoptions",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "reason",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        }
+      ]
+    },
+    {
+      "name": "IsTokenizedOptions",
+      "slug": "istokenizedoptions",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "primaryAccountIdentifier",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "IsTokenizedResult",
+      "slug": "istokenizedresult",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "isTokenized",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "ProvisioningDataEvent",
+      "slug": "provisioningdataevent",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "primaryAccountIdentifier",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "certificates",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "{}"
+        },
+        {
+          "name": "nonce",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "nonceSignature",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "PluginListenerHandle",
+      "slug": "pluginlistenerhandle",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "remove",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "() => any"
+        }
+      ]
+    }
+  ],
+  "enums": [
+    {
+      "name": "PaymentNetwork",
+      "slug": "paymentnetwork",
+      "members": [
+        {
+          "name": "interac",
+          "tags": [],
+          "docs": ""
+        },
+        {
+          "name": "JCB",
+          "tags": [],
+          "docs": ""
+        },
+        {
+          "name": "mada",
+          "tags": [],
+          "docs": ""
+        },
+        {
+          "name": "maestro",
+          "tags": [],
+          "docs": ""
+        },
+        {
+          "name": "masterCard",
+          "tags": [],
+          "docs": ""
+        },
+        {
+          "name": "mir",
+          "tags": [],
+          "docs": ""
+        },
+        {
+          "name": "privateLabel",
+          "tags": [],
+          "docs": ""
+        },
+        {
+          "name": "quicPay",
+          "tags": [],
+          "docs": ""
+        },
+        {
+          "name": "suica",
+          "tags": [],
+          "docs": ""
+        },
+        {
+          "name": "visa",
+          "tags": [],
+          "docs": ""
+        },
+        {
+          "name": "vPay",
+          "tags": [],
+          "docs": ""
+        },
+        {
+          "name": "barcode",
+          "tags": [],
+          "docs": ""
+        },
+        {
+          "name": "girocard",
+          "tags": [],
+          "docs": ""
+        },
+        {
+          "name": "waon",
+          "tags": [],
+          "docs": ""
+        },
+        {
+          "name": "nanaco",
+          "tags": [],
+          "docs": ""
+        },
+        {
+          "name": "postFinance",
+          "tags": [],
+          "docs": ""
+        },
+        {
+          "name": "tmoney",
+          "tags": [],
+          "docs": ""
+        }
+      ]
+    }
+  ],
+  "typeAliases": [],
+  "pluginConfigs": []
+}
