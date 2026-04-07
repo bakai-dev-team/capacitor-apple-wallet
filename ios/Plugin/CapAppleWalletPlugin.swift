@@ -451,7 +451,7 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
         let session = WalletExtensionSessionState(
             apiBaseUrl: state.session.apiBaseUrl,
             appAuthToken: "",
-            extensionAuthToken: state.session.extensionAuthToken,
+            extensionAuthToken: nil,
             cardholderName: state.session.cardholderName,
             clientDeviceId: state.session.clientDeviceId,
             clientWalletAccountId: state.session.clientWalletAccountId,
