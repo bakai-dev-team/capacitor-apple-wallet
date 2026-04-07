@@ -33,6 +33,7 @@ if (status.isTokenized) {
 * [`isTokenized(...)`](#istokenized)
 * [`syncExtensionState(...)`](#syncextensionstate)
 * [`clearExtensionState()`](#clearextensionstate)
+* [`deactivateExtensionState()`](#deactivateextensionstate)
 * [`addListener('walletProvisioningData', ...)`](#addlistenerwalletprovisioningdata)
 * [`removeAllListeners()`](#removealllisteners)
 * [Interfaces](#interfaces)
@@ -129,6 +130,17 @@ clearExtensionState() => any
 --------------------
 
 
+### deactivateExtensionState()
+
+```typescript
+deactivateExtensionState() => any
+```
+
+**Returns:** <code>any</code>
+
+--------------------
+
+
 ### addListener('walletProvisioningData', ...)
 
 ```typescript
@@ -199,9 +211,10 @@ removeAllListeners() => any
 
 #### IsTokenizedOptions
 
-| Prop                           | Type                |
-| ------------------------------ | ------------------- |
-| **`primaryAccountIdentifier`** | <code>string</code> |
+| Prop                           | Type                 |
+| ------------------------------ | -------------------- |
+| **`primaryAccountIdentifier`** | <code>string</code>  |
+| **`includeRemote`**            | <code>boolean</code> |
 
 
 #### IsTokenizedResult
@@ -216,7 +229,6 @@ removeAllListeners() => any
 | Prop            | Type                                                                                |
 | --------------- | ----------------------------------------------------------------------------------- |
 | **`session`**   | <code><a href="#applewalletextensionsession">AppleWalletExtensionSession</a></code> |
-| **`cards`**     | <code>{}</code>                                                                     |
 | **`updatedAt`** | <code>number</code>                                                                 |
 
 
@@ -225,7 +237,8 @@ removeAllListeners() => any
 | Prop                        | Type                |
 | --------------------------- | ------------------- |
 | **`apiBaseUrl`**            | <code>string</code> |
-| **`authToken`**             | <code>string</code> |
+| **`appAuthToken`**          | <code>string</code> |
+| **`extensionAuthToken`**    | <code>string</code> |
 | **`cardholderName`**        | <code>string</code> |
 | **`clientDeviceId`**        | <code>string</code> |
 | **`clientWalletAccountId`** | <code>string</code> |
@@ -236,17 +249,6 @@ removeAllListeners() => any
 | **`mode`**                  | <code>string</code> |
 | **`appVersion`**            | <code>string</code> |
 | **`appBuild`**              | <code>string</code> |
-
-
-#### AppleWalletExtensionCard
-
-| Prop                       | Type                                                      |
-| -------------------------- | --------------------------------------------------------- |
-| **`identifier`**           | <code>string</code>                                       |
-| **`title`**                | <code>string</code>                                       |
-| **`primaryAccountSuffix`** | <code>string</code>                                       |
-| **`localizedDescription`** | <code>string</code>                                       |
-| **`paymentNetwork`**       | <code><a href="#paymentnetwork">PaymentNetwork</a></code> |
 
 
 #### ProvisioningDataEvent

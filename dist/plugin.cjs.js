@@ -48,6 +48,9 @@ class AppleWalletWeb extends core.WebPlugin {
     clearExtensionState() {
         throw this.unavailable('Apple Wallet is available only on iOS.');
     }
+    deactivateExtensionState() {
+        throw this.unavailable('Apple Wallet is available only on iOS.');
+    }
 }
 
 var web = /*#__PURE__*/Object.freeze({

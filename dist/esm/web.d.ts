@@ -9,4 +9,5 @@ export declare class AppleWalletWeb extends WebPlugin implements AppleWalletPlug
         state: AppleWalletExtensionState;
     }): Promise<void>;
     clearExtensionState(): Promise<void>;
+    deactivateExtensionState(): Promise<void>;
 }

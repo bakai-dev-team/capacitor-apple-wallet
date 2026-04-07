@@ -108,6 +108,16 @@
         "slug": "clearextensionstate"
       },
       {
+        "name": "deactivateExtensionState",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "deactivateextensionstate"
+      },
+      {
         "name": "addListener",
         "signature": "(eventName: 'walletProvisioningData', listenerFunc: (event: ProvisioningDataEvent) => void) => any",
         "parameters": [
@@ -294,6 +304,13 @@
           "docs": "",
           "complexTypes": [],
           "type": "string"
+        },
+        {
+          "name": "includeRemote",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "boolean | undefined"
         }
       ]
     },
@@ -330,15 +347,6 @@
           "type": "AppleWalletExtensionSession"
         },
         {
-          "name": "cards",
-          "tags": [],
-          "docs": "",
-          "complexTypes": [
-            "AppleWalletExtensionCard"
-          ],
-          "type": "{}"
-        },
-        {
           "name": "updatedAt",
           "tags": [],
           "docs": "",
@@ -362,11 +370,18 @@
           "type": "string"
         },
         {
-          "name": "authToken",
+          "name": "appAuthToken",
           "tags": [],
           "docs": "",
           "complexTypes": [],
           "type": "string"
+        },
+        {
+          "name": "extensionAuthToken",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
         },
         {
           "name": "cardholderName",
@@ -437,52 +452,6 @@
           "docs": "",
           "complexTypes": [],
           "type": "string | undefined"
-        }
-      ]
-    },
-    {
-      "name": "AppleWalletExtensionCard",
-      "slug": "applewalletextensioncard",
-      "docs": "",
-      "tags": [],
-      "methods": [],
-      "properties": [
-        {
-          "name": "identifier",
-          "tags": [],
-          "docs": "",
-          "complexTypes": [],
-          "type": "string"
-        },
-        {
-          "name": "title",
-          "tags": [],
-          "docs": "",
-          "complexTypes": [],
-          "type": "string"
-        },
-        {
-          "name": "primaryAccountSuffix",
-          "tags": [],
-          "docs": "",
-          "complexTypes": [],
-          "type": "string"
-        },
-        {
-          "name": "localizedDescription",
-          "tags": [],
-          "docs": "",
-          "complexTypes": [],
-          "type": "string | undefined"
-        },
-        {
-          "name": "paymentNetwork",
-          "tags": [],
-          "docs": "",
-          "complexTypes": [
-            "PaymentNetwork"
-          ],
-          "type": "PaymentNetwork"
         }
       ]
     },

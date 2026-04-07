@@ -1,7 +1,8 @@
 import { WebPlugin } from '@capacitor/core';
 
 import type {
-  AddCardResult, AppleWalletExtensionState,
+  AddCardResult,
+  AppleWalletExtensionState,
   AppleWalletPlugin,
   CancelProvisioningOptions,
   CompleteProvisioningOptions,
@@ -36,7 +37,7 @@ export class AppleWalletWeb extends WebPlugin implements AppleWalletPlugin {
   }
 
   async syncExtensionState(options: { state: AppleWalletExtensionState }): Promise<void> {
-    void options
+    void options;
     throw this.unavailable('Apple Wallet is available only on iOS.');
   }
 
@@ -44,4 +45,7 @@ export class AppleWalletWeb extends WebPlugin implements AppleWalletPlugin {
     throw this.unavailable('Apple Wallet is available only on iOS.');
   }
 
+  deactivateExtensionState(): Promise<void> {
+    throw this.unavailable('Apple Wallet is available only on iOS.');
+  }
 }

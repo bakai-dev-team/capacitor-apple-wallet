@@ -10,4 +10,5 @@ CAP_PLUGIN(CapAppleWalletPlugin, "AppleWallet",
            CAP_PLUGIN_METHOD(isTokenized, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(syncExtensionState, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(clearExtensionState, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(deactivateExtensionState, CAPPluginReturnPromise);
 )

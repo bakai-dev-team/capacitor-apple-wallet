@@ -47,6 +47,7 @@ export interface CancelProvisioningOptions {
 
 export interface IsTokenizedOptions {
   primaryAccountIdentifier: string;
+  includeRemote?: boolean;
 }
 
 export interface IsTokenizedResult {
@@ -63,7 +64,8 @@ export interface AddCardResult {
 
 export interface AppleWalletExtensionSession {
   apiBaseUrl: string;
-  authToken: string;
+  appAuthToken: string;
+  extensionAuthToken?: string;
   cardholderName?: string;
   clientDeviceId: string;
   clientWalletAccountId?: string;
@@ -86,7 +88,6 @@ export interface AppleWalletExtensionCard {
 
 export interface AppleWalletExtensionState {
   session: AppleWalletExtensionSession;
-  cards: AppleWalletExtensionCard[];
   updatedAt: number;
 }
 
@@ -102,6 +103,8 @@ export interface AppleWalletPlugin {
   syncExtensionState(options: { state: AppleWalletExtensionState }): Promise<void>;
 
   clearExtensionState(): Promise<void>;
+
+  deactivateExtensionState(): Promise<void>;
 
   addListener(
     eventName: 'walletProvisioningData',
