@@ -39,6 +39,12 @@ var capacitorAppleWallet = (function (exports, core) {
         async isTokenized(options) {
             throw this.unavailable('Apple Wallet is available only on iOS.');
         }
+        async syncExtensionState(options) {
+            throw this.unavailable('Apple Wallet is available only on iOS.');
+        }
+        clearExtensionState() {
+            throw this.unavailable('Apple Wallet is available only on iOS.');
+        }
     }
 
     var web = /*#__PURE__*/Object.freeze({

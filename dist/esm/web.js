@@ -16,5 +16,12 @@ export class AppleWalletWeb extends WebPlugin {
         void options;
         throw this.unavailable('Apple Wallet is available only on iOS.');
     }
+    async syncExtensionState(options) {
+        void options;
+        throw this.unavailable('Apple Wallet is available only on iOS.');
+    }
+    clearExtensionState() {
+        throw this.unavailable('Apple Wallet is available only on iOS.');
+    }
 }
 //# sourceMappingURL=web.js.map

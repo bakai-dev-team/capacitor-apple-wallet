@@ -52,11 +52,41 @@ export interface AddCardResult {
     deviceAccountIdentifier?: string;
     deviceAccountNumberSuffix?: string;
 }
+export interface AppleWalletExtensionSession {
+    apiBaseUrl: string;
+    authToken: string;
+    cardholderName?: string;
+    clientDeviceId: string;
+    clientWalletAccountId?: string;
+    deviceName?: string;
+    deviceModel?: string;
+    osVersion?: string;
+    locale?: string;
+    mode?: string;
+    appVersion?: string;
+    appBuild?: string;
+}
+export interface AppleWalletExtensionCard {
+    identifier: string;
+    title: string;
+    primaryAccountSuffix: string;
+    localizedDescription?: string;
+    paymentNetwork: PaymentNetwork;
+}
+export interface AppleWalletExtensionState {
+    session: AppleWalletExtensionSession;
+    cards: AppleWalletExtensionCard[];
+    updatedAt: number;
+}
 export interface AppleWalletPlugin {
     startProvisioning(options: StartProvisioningOptions): Promise<AddCardResult>;
     completeProvisioning(options: CompleteProvisioningOptions): Promise<void>;
     cancelProvisioning(options?: CancelProvisioningOptions): Promise<void>;
     isTokenized(options: IsTokenizedOptions): Promise<IsTokenizedResult>;
+    syncExtensionState(options: {
+        state: AppleWalletExtensionState;
+    }): Promise<void>;
+    clearExtensionState(): Promise<void>;
     addListener(eventName: 'walletProvisioningData', listenerFunc: (event: ProvisioningDataEvent) => void): Promise<PluginListenerHandle>;
     removeAllListeners(): Promise<void>;
 }

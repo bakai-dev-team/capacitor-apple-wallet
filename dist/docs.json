@@ -80,6 +80,34 @@
         "slug": "istokenized"
       },
       {
+        "name": "syncExtensionState",
+        "signature": "(options: { state: AppleWalletExtensionState; }) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "{ state: AppleWalletExtensionState; }"
+          }
+        ],
+        "returns": "any",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [
+          "AppleWalletExtensionState"
+        ],
+        "slug": "syncextensionstate"
+      },
+      {
+        "name": "clearExtensionState",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "clearextensionstate"
+      },
+      {
         "name": "addListener",
         "signature": "(eventName: 'walletProvisioningData', listenerFunc: (event: ProvisioningDataEvent) => void) => any",
         "parameters": [
@@ -282,6 +310,179 @@
           "docs": "",
           "complexTypes": [],
           "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "AppleWalletExtensionState",
+      "slug": "applewalletextensionstate",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "session",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [
+            "AppleWalletExtensionSession"
+          ],
+          "type": "AppleWalletExtensionSession"
+        },
+        {
+          "name": "cards",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [
+            "AppleWalletExtensionCard"
+          ],
+          "type": "{}"
+        },
+        {
+          "name": "updatedAt",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "name": "AppleWalletExtensionSession",
+      "slug": "applewalletextensionsession",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "apiBaseUrl",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "authToken",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "cardholderName",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "clientDeviceId",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "clientWalletAccountId",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "deviceName",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "deviceModel",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "osVersion",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "locale",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "mode",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "appVersion",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "appBuild",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        }
+      ]
+    },
+    {
+      "name": "AppleWalletExtensionCard",
+      "slug": "applewalletextensioncard",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "identifier",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "title",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "primaryAccountSuffix",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "localizedDescription",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "paymentNetwork",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [
+            "PaymentNetwork"
+          ],
+          "type": "PaymentNetwork"
         }
       ]
     },
