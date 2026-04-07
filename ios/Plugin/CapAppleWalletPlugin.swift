@@ -2,6 +2,9 @@ import Foundation
 import PassKit
 import Capacitor
 
+private let walletExtensionAppGroup = "group.kg.bta.mobilebank2.apple-wallet"
+private let walletExtensionStateKey = "apple_wallet_extension_state"
+
 private struct AddCardContext {
     let primaryAccountIdentifier: String
 }
@@ -12,6 +15,35 @@ private struct PluginError: LocalizedError {
     var errorDescription: String? {
         message
     }
+}
+
+private struct WalletExtensionSessionState: Codable {
+    let apiBaseUrl: String
+    let authToken: String
+    let cardholderName: String?
+    let clientDeviceId: String
+    let clientWalletAccountId: String?
+    let deviceName: String?
+    let deviceModel: String?
+    let osVersion: String?
+    let locale: String?
+    let mode: String?
+    let appVersion: String?
+    let appBuild: String?
+}
+
+private struct WalletExtensionCardState: Codable {
+    let identifier: String
+    let title: String
+    let primaryAccountSuffix: String
+    let localizedDescription: String?
+    let paymentNetwork: Int
+}
+
+private struct WalletExtensionState: Codable {
+    let session: WalletExtensionSessionState
+    let cards: [WalletExtensionCardState]
+    let updatedAt: TimeInterval
 }
 
 @objc(CapAppleWalletPlugin)
@@ -113,6 +145,21 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
         pendingProvisioningError = call.getString("reason") ?? "Provisioning canceled by the application."
         pendingRequestHandler = nil
         handler(PKAddPaymentPassRequest())
+        call.resolve()
+    }
+
+    @objc func syncExtensionState(_ call: CAPPluginCall) {
+        do {
+            let state = try call.decode(WalletExtensionState.self, for: "state")
+            try saveExtensionState(state)
+            call.resolve()
+        } catch {
+            call.reject(error.localizedDescription, "INVALID_ARGUMENTS")
+        }
+    }
+
+    @objc func clearExtensionState(_ call: CAPPluginCall) {
+        clearExtensionState()
         call.resolve()
     }
 
@@ -235,6 +282,25 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
         }
 
         return data
+    }
+
+    private func saveExtensionState(_ state: WalletExtensionState) throws {
+        guard let userDefaults = UserDefaults(suiteName: walletExtensionAppGroup) else {
+            throw PluginError(message: "Unable to access Apple Wallet extension App Group.")
+        }
+
+        let data = try JSONEncoder().encode(state)
+        userDefaults.set(data, forKey: walletExtensionStateKey)
+        userDefaults.synchronize()
+    }
+
+    private func clearExtensionState() {
+        guard let userDefaults = UserDefaults(suiteName: walletExtensionAppGroup) else {
+            return
+        }
+
+        userDefaults.removeObject(forKey: walletExtensionStateKey)
+        userDefaults.synchronize()
     }
 
     // SwiftLint flags this compatibility mapper as too complex because of
