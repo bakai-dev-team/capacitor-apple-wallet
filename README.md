@@ -238,14 +238,14 @@ removeAllListeners() => any
 | **`apiBaseUrl`**            | <code>string</code> |
 | **`appAuthToken`**          | <code>string</code> |
 | **`extensionAuthToken`**    | <code>string</code> |
-| **`clientDeviceId`**        | <code>string</code> |
+| **`device_id`**             | <code>string</code> |
 | **`clientWalletAccountId`** | <code>string</code> |
-| **`deviceName`**            | <code>string</code> |
+| **`device`**                | <code>string</code> |
 | **`deviceModel`**           | <code>string</code> |
 | **`osVersion`**             | <code>string</code> |
-| **`locale`**                | <code>string</code> |
+| **`lang`**                  | <code>string</code> |
 | **`mode`**                  | <code>string</code> |
-| **`appVersion`**            | <code>string</code> |
+| **`version`**               | <code>string</code> |
 | **`appBuild`**              | <code>string</code> |
 
 

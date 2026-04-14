@@ -377,7 +377,7 @@
           "type": "string | undefined"
         },
         {
-          "name": "clientDeviceId",
+          "name": "device_id",
           "tags": [],
           "docs": "",
           "complexTypes": [],
@@ -391,7 +391,7 @@
           "type": "string | undefined"
         },
         {
-          "name": "deviceName",
+          "name": "device",
           "tags": [],
           "docs": "",
           "complexTypes": [],
@@ -412,7 +412,7 @@
           "type": "string | undefined"
         },
         {
-          "name": "locale",
+          "name": "lang",
           "tags": [],
           "docs": "",
           "complexTypes": [],
@@ -426,7 +426,7 @@
           "type": "string | undefined"
         },
         {
-          "name": "appVersion",
+          "name": "version",
           "tags": [],
           "docs": "",
           "complexTypes": [],

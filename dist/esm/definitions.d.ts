@@ -56,14 +56,14 @@ export interface AppleWalletExtensionSession {
     apiBaseUrl: string;
     appAuthToken: string;
     extensionAuthToken?: string;
-    clientDeviceId: string;
+    device_id: string;
     clientWalletAccountId?: string;
-    deviceName?: string;
+    device?: string;
     deviceModel?: string;
     osVersion?: string;
-    locale?: string;
+    lang?: string;
     mode?: string;
-    appVersion?: string;
+    version?: string;
     appBuild?: string;
 }
 export interface AppleWalletExtensionCard {
