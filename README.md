@@ -233,20 +233,9 @@ removeAllListeners() => any
 
 #### AppleWalletExtensionSession
 
-| Prop                        | Type                |
-| --------------------------- | ------------------- |
-| **`apiBaseUrl`**            | <code>string</code> |
-| **`appAuthToken`**          | <code>string</code> |
-| **`extensionAuthToken`**    | <code>string</code> |
-| **`device_id`**             | <code>string</code> |
-| **`clientWalletAccountId`** | <code>string</code> |
-| **`device`**                | <code>string</code> |
-| **`deviceModel`**           | <code>string</code> |
-| **`osVersion`**             | <code>string</code> |
-| **`lang`**                  | <code>string</code> |
-| **`mode`**                  | <code>string</code> |
-| **`version`**               | <code>string</code> |
-| **`appBuild`**              | <code>string</code> |
+| Prop               | Type                |
+| ------------------ | ------------------- |
+| **`appAuthToken`** | <code>string</code> |
 
 
 #### ProvisioningDataEvent

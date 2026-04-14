@@ -356,88 +356,11 @@
       "methods": [],
       "properties": [
         {
-          "name": "apiBaseUrl",
-          "tags": [],
-          "docs": "",
-          "complexTypes": [],
-          "type": "string"
-        },
-        {
           "name": "appAuthToken",
           "tags": [],
           "docs": "",
           "complexTypes": [],
           "type": "string"
-        },
-        {
-          "name": "extensionAuthToken",
-          "tags": [],
-          "docs": "",
-          "complexTypes": [],
-          "type": "string | undefined"
-        },
-        {
-          "name": "device_id",
-          "tags": [],
-          "docs": "",
-          "complexTypes": [],
-          "type": "string"
-        },
-        {
-          "name": "clientWalletAccountId",
-          "tags": [],
-          "docs": "",
-          "complexTypes": [],
-          "type": "string | undefined"
-        },
-        {
-          "name": "device",
-          "tags": [],
-          "docs": "",
-          "complexTypes": [],
-          "type": "string | undefined"
-        },
-        {
-          "name": "deviceModel",
-          "tags": [],
-          "docs": "",
-          "complexTypes": [],
-          "type": "string | undefined"
-        },
-        {
-          "name": "osVersion",
-          "tags": [],
-          "docs": "",
-          "complexTypes": [],
-          "type": "string | undefined"
-        },
-        {
-          "name": "lang",
-          "tags": [],
-          "docs": "",
-          "complexTypes": [],
-          "type": "string | undefined"
-        },
-        {
-          "name": "mode",
-          "tags": [],
-          "docs": "",
-          "complexTypes": [],
-          "type": "string | undefined"
-        },
-        {
-          "name": "version",
-          "tags": [],
-          "docs": "",
-          "complexTypes": [],
-          "type": "string | undefined"
-        },
-        {
-          "name": "appBuild",
-          "tags": [],
-          "docs": "",
-          "complexTypes": [],
-          "type": "string | undefined"
         }
       ]
     },

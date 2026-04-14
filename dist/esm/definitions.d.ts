@@ -53,18 +53,7 @@ export interface AddCardResult {
     deviceAccountNumberSuffix?: string;
 }
 export interface AppleWalletExtensionSession {
-    apiBaseUrl: string;
     appAuthToken: string;
-    extensionAuthToken?: string;
-    device_id: string;
-    clientWalletAccountId?: string;
-    device?: string;
-    deviceModel?: string;
-    osVersion?: string;
-    lang?: string;
-    mode?: string;
-    version?: string;
-    appBuild?: string;
 }
 export interface AppleWalletExtensionCard {
     identifier: string;
