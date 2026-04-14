@@ -163,13 +163,6 @@
       "methods": [],
       "properties": [
         {
-          "name": "cardholderName",
-          "tags": [],
-          "docs": "",
-          "complexTypes": [],
-          "type": "string"
-        },
-        {
           "name": "primaryAccountSuffix",
           "tags": [],
           "docs": "",
@@ -378,13 +371,6 @@
         },
         {
           "name": "extensionAuthToken",
-          "tags": [],
-          "docs": "",
-          "complexTypes": [],
-          "type": "string | undefined"
-        },
-        {
-          "name": "cardholderName",
           "tags": [],
           "docs": "",
           "complexTypes": [],

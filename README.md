@@ -175,7 +175,6 @@ removeAllListeners() => any
 
 | Prop                           | Type                                                      |
 | ------------------------------ | --------------------------------------------------------- |
-| **`cardholderName`**           | <code>string</code>                                       |
 | **`primaryAccountSuffix`**     | <code>string</code>                                       |
 | **`paymentNetwork`**           | <code><a href="#paymentnetwork">PaymentNetwork</a></code> |
 | **`primaryAccountIdentifier`** | <code>string</code>                                       |
@@ -239,7 +238,6 @@ removeAllListeners() => any
 | **`apiBaseUrl`**            | <code>string</code> |
 | **`appAuthToken`**          | <code>string</code> |
 | **`extensionAuthToken`**    | <code>string</code> |
-| **`cardholderName`**        | <code>string</code> |
 | **`clientDeviceId`**        | <code>string</code> |
 | **`clientWalletAccountId`** | <code>string</code> |
 | **`deviceName`**            | <code>string</code> |
