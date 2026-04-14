@@ -236,6 +236,7 @@ removeAllListeners() => any
 | Prop               | Type                |
 | ------------------ | ------------------- |
 | **`appAuthToken`** | <code>string</code> |
+| **`lang`**         | <code>string</code> |
 
 
 #### ProvisioningDataEvent

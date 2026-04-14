@@ -54,6 +54,7 @@ export interface AddCardResult {
 }
 export interface AppleWalletExtensionSession {
     appAuthToken: string;
+    lang: string;
 }
 export interface AppleWalletExtensionCard {
     identifier: string;
