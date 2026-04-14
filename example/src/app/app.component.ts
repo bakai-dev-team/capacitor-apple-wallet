@@ -60,7 +60,6 @@ export class AppComponent implements OnInit, OnDestroy {
   backendUrl = 'https://api.example.com/mobile/wallet';
   authToken = '';
   fpans = '6854707,5313073';
-  cardholderName = 'John Doe';
   primaryAccountSuffix = '4707';
   paymentNetwork = PaymentNetwork.visa;
   primaryAccountIdentifier = '6854707';
@@ -120,7 +119,6 @@ export class AppComponent implements OnInit, OnDestroy {
       this.provisioningResult = 'Waiting for Apple Wallet callback...';
 
       const result = await AppleWallet.startProvisioning({
-        cardholderName: this.cardholderName.trim(),
         primaryAccountSuffix: this.primaryAccountSuffix.trim(),
         paymentNetwork: this.paymentNetwork,
         primaryAccountIdentifier: this.primaryAccountIdentifier.trim(),
