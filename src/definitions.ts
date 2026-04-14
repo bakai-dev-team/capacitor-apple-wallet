@@ -21,7 +21,6 @@ export enum PaymentNetwork {
 }
 
 export interface StartProvisioningOptions {
-  cardholderName: string;
   primaryAccountSuffix: string;
   paymentNetwork: PaymentNetwork;
   primaryAccountIdentifier: string;
@@ -66,7 +65,6 @@ export interface AppleWalletExtensionSession {
   apiBaseUrl: string;
   appAuthToken: string;
   extensionAuthToken?: string;
-  cardholderName?: string;
   clientDeviceId: string;
   clientWalletAccountId?: string;
   deviceName?: string;

@@ -21,7 +21,6 @@ private struct WalletExtensionSessionState: Codable {
     let apiBaseUrl: String
     let appAuthToken: String
     let extensionAuthToken: String?
-    let cardholderName: String?
     let clientDeviceId: String
     let clientWalletAccountId: String?
     let deviceName: String?
@@ -36,7 +35,6 @@ private struct WalletExtensionSessionState: Codable {
         apiBaseUrl: String,
         appAuthToken: String,
         extensionAuthToken: String? = nil,
-        cardholderName: String? = nil,
         clientDeviceId: String,
         clientWalletAccountId: String? = nil,
         deviceName: String? = nil,
@@ -50,7 +48,6 @@ private struct WalletExtensionSessionState: Codable {
         self.apiBaseUrl = apiBaseUrl
         self.appAuthToken = appAuthToken
         self.extensionAuthToken = extensionAuthToken
-        self.cardholderName = cardholderName
         self.clientDeviceId = clientDeviceId
         self.clientWalletAccountId = clientWalletAccountId
         self.deviceName = deviceName
@@ -67,7 +64,6 @@ private struct WalletExtensionSessionState: Codable {
         case appAuthToken
         case extensionAuthToken
         case authToken
-        case cardholderName
         case clientDeviceId
         case clientWalletAccountId
         case deviceName
@@ -86,7 +82,6 @@ private struct WalletExtensionSessionState: Codable {
         apiBaseUrl = try container.decode(String.self, forKey: .apiBaseUrl)
         appAuthToken = try container.decodeIfPresent(String.self, forKey: .appAuthToken) ?? legacyAuthToken ?? ""
         extensionAuthToken = try container.decodeIfPresent(String.self, forKey: .extensionAuthToken) ?? legacyAuthToken
-        cardholderName = try container.decodeIfPresent(String.self, forKey: .cardholderName)
         clientDeviceId = try container.decode(String.self, forKey: .clientDeviceId)
         clientWalletAccountId = try container.decodeIfPresent(String.self, forKey: .clientWalletAccountId)
         deviceName = try container.decodeIfPresent(String.self, forKey: .deviceName)
@@ -103,7 +98,6 @@ private struct WalletExtensionSessionState: Codable {
         try container.encode(apiBaseUrl, forKey: .apiBaseUrl)
         try container.encode(appAuthToken, forKey: .appAuthToken)
         try container.encodeIfPresent(extensionAuthToken, forKey: .extensionAuthToken)
-        try container.encodeIfPresent(cardholderName, forKey: .cardholderName)
         try container.encode(clientDeviceId, forKey: .clientDeviceId)
         try container.encodeIfPresent(clientWalletAccountId, forKey: .clientWalletAccountId)
         try container.encodeIfPresent(deviceName, forKey: .deviceName)
@@ -332,7 +326,6 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
             throw PluginError(message: "Unable to create PKAddPaymentPassRequestConfiguration.")
         }
 
-        configuration.cardholderName = try requireString(call: call, key: "cardholderName")
         configuration.primaryAccountSuffix = try requireString(call: call, key: "primaryAccountSuffix")
         configuration.paymentNetwork = getNetwork(paymentNetwork: call.getInt("paymentNetwork", 9))
 
@@ -404,7 +397,6 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
             apiBaseUrl: incomingState.session.apiBaseUrl,
             appAuthToken: incomingState.session.appAuthToken,
             extensionAuthToken: shouldResetExtensionSession ? nil : existingState.session.extensionAuthToken,
-            cardholderName: incomingState.session.cardholderName ?? existingState.session.cardholderName,
             clientDeviceId: incomingState.session.clientDeviceId,
             clientWalletAccountId: incomingState.session.clientWalletAccountId ?? existingState.session.clientWalletAccountId,
             deviceName: incomingState.session.deviceName ?? existingState.session.deviceName,
@@ -452,7 +444,6 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
             apiBaseUrl: state.session.apiBaseUrl,
             appAuthToken: "",
             extensionAuthToken: nil,
-            cardholderName: state.session.cardholderName,
             clientDeviceId: state.session.clientDeviceId,
             clientWalletAccountId: state.session.clientWalletAccountId,
             deviceName: state.session.deviceName,
