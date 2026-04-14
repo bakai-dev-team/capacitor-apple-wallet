@@ -21,41 +21,41 @@ private struct WalletExtensionSessionState: Codable {
     let apiBaseUrl: String
     let appAuthToken: String
     let extensionAuthToken: String?
-    let clientDeviceId: String
+    let device_id: String
     let clientWalletAccountId: String?
-    let deviceName: String?
+    let device: String?
     let deviceModel: String?
     let osVersion: String?
-    let locale: String?
+    let lang: String?
     let mode: String?
-    let appVersion: String?
+    let version: String?
     let appBuild: String?
 
     init(
         apiBaseUrl: String,
         appAuthToken: String,
         extensionAuthToken: String? = nil,
-        clientDeviceId: String,
+        device_id: String,
         clientWalletAccountId: String? = nil,
-        deviceName: String? = nil,
+        device: String? = nil,
         deviceModel: String? = nil,
         osVersion: String? = nil,
-        locale: String? = nil,
+        lang: String? = nil,
         mode: String? = nil,
-        appVersion: String? = nil,
+        version: String? = nil,
         appBuild: String? = nil
     ) {
         self.apiBaseUrl = apiBaseUrl
         self.appAuthToken = appAuthToken
         self.extensionAuthToken = extensionAuthToken
-        self.clientDeviceId = clientDeviceId
+        self.device_id = device_id
         self.clientWalletAccountId = clientWalletAccountId
-        self.deviceName = deviceName
+        self.device = device
         self.deviceModel = deviceModel
         self.osVersion = osVersion
-        self.locale = locale
+        self.lang = lang
         self.mode = mode
-        self.appVersion = appVersion
+        self.version = version
         self.appBuild = appBuild
     }
 
@@ -64,13 +64,17 @@ private struct WalletExtensionSessionState: Codable {
         case appAuthToken
         case extensionAuthToken
         case authToken
+        case device_id
         case clientDeviceId
         case clientWalletAccountId
+        case device
         case deviceName
         case deviceModel
         case osVersion
+        case lang
         case locale
         case mode
+        case version
         case appVersion
         case appBuild
     }
@@ -82,14 +86,24 @@ private struct WalletExtensionSessionState: Codable {
         apiBaseUrl = try container.decode(String.self, forKey: .apiBaseUrl)
         appAuthToken = try container.decodeIfPresent(String.self, forKey: .appAuthToken) ?? legacyAuthToken ?? ""
         extensionAuthToken = try container.decodeIfPresent(String.self, forKey: .extensionAuthToken) ?? legacyAuthToken
-        clientDeviceId = try container.decode(String.self, forKey: .clientDeviceId)
+        guard let decodedDeviceId = try container.decodeIfPresent(String.self, forKey: .device_id)
+            ?? container.decodeIfPresent(String.self, forKey: .clientDeviceId) else {
+            throw DecodingError.keyNotFound(
+                CodingKeys.device_id,
+                DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Missing device_id")
+            )
+        }
+        device_id = decodedDeviceId
         clientWalletAccountId = try container.decodeIfPresent(String.self, forKey: .clientWalletAccountId)
-        deviceName = try container.decodeIfPresent(String.self, forKey: .deviceName)
+        device = try container.decodeIfPresent(String.self, forKey: .device)
+            ?? container.decodeIfPresent(String.self, forKey: .deviceName)
         deviceModel = try container.decodeIfPresent(String.self, forKey: .deviceModel)
         osVersion = try container.decodeIfPresent(String.self, forKey: .osVersion)
-        locale = try container.decodeIfPresent(String.self, forKey: .locale)
+        lang = try container.decodeIfPresent(String.self, forKey: .lang)
+            ?? container.decodeIfPresent(String.self, forKey: .locale)
         mode = try container.decodeIfPresent(String.self, forKey: .mode)
-        appVersion = try container.decodeIfPresent(String.self, forKey: .appVersion)
+        version = try container.decodeIfPresent(String.self, forKey: .version)
+            ?? container.decodeIfPresent(String.self, forKey: .appVersion)
         appBuild = try container.decodeIfPresent(String.self, forKey: .appBuild)
     }
 
@@ -98,14 +112,14 @@ private struct WalletExtensionSessionState: Codable {
         try container.encode(apiBaseUrl, forKey: .apiBaseUrl)
         try container.encode(appAuthToken, forKey: .appAuthToken)
         try container.encodeIfPresent(extensionAuthToken, forKey: .extensionAuthToken)
-        try container.encode(clientDeviceId, forKey: .clientDeviceId)
+        try container.encode(device_id, forKey: .device_id)
         try container.encodeIfPresent(clientWalletAccountId, forKey: .clientWalletAccountId)
-        try container.encodeIfPresent(deviceName, forKey: .deviceName)
+        try container.encodeIfPresent(device, forKey: .device)
         try container.encodeIfPresent(deviceModel, forKey: .deviceModel)
         try container.encodeIfPresent(osVersion, forKey: .osVersion)
-        try container.encodeIfPresent(locale, forKey: .locale)
+        try container.encodeIfPresent(lang, forKey: .lang)
         try container.encodeIfPresent(mode, forKey: .mode)
-        try container.encodeIfPresent(appVersion, forKey: .appVersion)
+        try container.encodeIfPresent(version, forKey: .version)
         try container.encodeIfPresent(appBuild, forKey: .appBuild)
     }
 }
@@ -397,14 +411,14 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
             apiBaseUrl: incomingState.session.apiBaseUrl,
             appAuthToken: incomingState.session.appAuthToken,
             extensionAuthToken: shouldResetExtensionSession ? nil : existingState.session.extensionAuthToken,
-            clientDeviceId: incomingState.session.clientDeviceId,
+            device_id: incomingState.session.device_id,
             clientWalletAccountId: incomingState.session.clientWalletAccountId ?? existingState.session.clientWalletAccountId,
-            deviceName: incomingState.session.deviceName ?? existingState.session.deviceName,
+            device: incomingState.session.device ?? existingState.session.device,
             deviceModel: incomingState.session.deviceModel ?? existingState.session.deviceModel,
             osVersion: incomingState.session.osVersion ?? existingState.session.osVersion,
-            locale: incomingState.session.locale ?? existingState.session.locale,
+            lang: incomingState.session.lang ?? existingState.session.lang,
             mode: incomingState.session.mode ?? existingState.session.mode,
-            appVersion: incomingState.session.appVersion ?? existingState.session.appVersion,
+            version: incomingState.session.version ?? existingState.session.version,
             appBuild: incomingState.session.appBuild ?? existingState.session.appBuild
         )
 
@@ -444,14 +458,14 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
             apiBaseUrl: state.session.apiBaseUrl,
             appAuthToken: "",
             extensionAuthToken: nil,
-            clientDeviceId: state.session.clientDeviceId,
+            device_id: state.session.device_id,
             clientWalletAccountId: state.session.clientWalletAccountId,
-            deviceName: state.session.deviceName,
+            device: state.session.device,
             deviceModel: state.session.deviceModel,
             osVersion: state.session.osVersion,
-            locale: state.session.locale,
+            lang: state.session.lang,
             mode: state.session.mode,
-            appVersion: state.session.appVersion,
+            version: state.session.version,
             appBuild: state.session.appBuild
         )
         let updatedState = WalletExtensionState(
