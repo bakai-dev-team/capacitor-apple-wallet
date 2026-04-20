@@ -79,4 +79,12 @@ export interface AppleWalletPlugin {
     deactivateExtensionState(): Promise<void>;
     addListener(eventName: 'walletProvisioningData', listenerFunc: (event: ProvisioningDataEvent) => void): Promise<PluginListenerHandle>;
     removeAllListeners(): Promise<void>;
+    showNativeButton(options: {
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+    }): Promise<void>;
+    hideNativeButton(): Promise<void>;
+    addListener(eventName: 'nativeButtonTapped', listenerFunc: () => void): Promise<PluginListenerHandle>;
 }

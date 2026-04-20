@@ -36,6 +36,9 @@ if (status.isTokenized) {
 * [`deactivateExtensionState()`](#deactivateextensionstate)
 * [`addListener('walletProvisioningData', ...)`](#addlistenerwalletprovisioningdata)
 * [`removeAllListeners()`](#removealllisteners)
+* [`showNativeButton(...)`](#shownativebutton)
+* [`hideNativeButton()`](#hidenativebutton)
+* [`addListener('nativeButtonTapped', ...)`](#addlistenernativebuttontapped)
 * [Interfaces](#interfaces)
 * [Enums](#enums)
 
@@ -162,6 +165,48 @@ addListener(eventName: 'walletProvisioningData', listenerFunc: (event: Provision
 ```typescript
 removeAllListeners() => any
 ```
+
+**Returns:** <code>any</code>
+
+--------------------
+
+
+### showNativeButton(...)
+
+```typescript
+showNativeButton(options: { x: number; y: number; width: number; height: number; }) => any
+```
+
+| Param         | Type                                                                  |
+| ------------- | --------------------------------------------------------------------- |
+| **`options`** | <code>{ x: number; y: number; width: number; height: number; }</code> |
+
+**Returns:** <code>any</code>
+
+--------------------
+
+
+### hideNativeButton()
+
+```typescript
+hideNativeButton() => any
+```
+
+**Returns:** <code>any</code>
+
+--------------------
+
+
+### addListener('nativeButtonTapped', ...)
+
+```typescript
+addListener(eventName: 'nativeButtonTapped', listenerFunc: () => void) => any
+```
+
+| Param              | Type                              |
+| ------------------ | --------------------------------- |
+| **`eventName`**    | <code>'nativeButtonTapped'</code> |
+| **`listenerFunc`** | <code>() =&gt; void</code>        |
 
 **Returns:** <code>any</code>
 

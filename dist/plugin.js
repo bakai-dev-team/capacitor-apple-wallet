@@ -48,6 +48,14 @@ var capacitorAppleWallet = (function (exports, core) {
         deactivateExtensionState() {
             throw this.unavailable('Apple Wallet is available only on iOS.');
         }
+        async showNativeButton(_options) {
+            // Web implementation not available
+            return;
+        }
+        async hideNativeButton() {
+            // Web implementation not available
+            return;
+        }
     }
 
     var web = /*#__PURE__*/Object.freeze({

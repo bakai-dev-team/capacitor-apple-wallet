@@ -26,5 +26,13 @@ export class AppleWalletWeb extends WebPlugin {
     deactivateExtensionState() {
         throw this.unavailable('Apple Wallet is available only on iOS.');
     }
+    async showNativeButton(_options) {
+        // Web implementation not available
+        return;
+    }
+    async hideNativeButton() {
+        // Web implementation not available
+        return;
+    }
 }
 //# sourceMappingURL=web.js.map

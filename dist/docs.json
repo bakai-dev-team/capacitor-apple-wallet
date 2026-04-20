@@ -150,6 +150,55 @@
         "docs": "",
         "complexTypes": [],
         "slug": "removealllisteners"
+      },
+      {
+        "name": "showNativeButton",
+        "signature": "(options: { x: number; y: number; width: number; height: number; }) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "{ x: number; y: number; width: number; height: number; }"
+          }
+        ],
+        "returns": "any",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "shownativebutton"
+      },
+      {
+        "name": "hideNativeButton",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "hidenativebutton"
+      },
+      {
+        "name": "addListener",
+        "signature": "(eventName: 'nativeButtonTapped', listenerFunc: () => void) => any",
+        "parameters": [
+          {
+            "name": "eventName",
+            "docs": "",
+            "type": "'nativeButtonTapped'"
+          },
+          {
+            "name": "listenerFunc",
+            "docs": "",
+            "type": "() => void"
+          }
+        ],
+        "returns": "any",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [
+          "PluginListenerHandle"
+        ],
+        "slug": "addlistenernativebuttontapped"
       }
     ],
     "properties": []
