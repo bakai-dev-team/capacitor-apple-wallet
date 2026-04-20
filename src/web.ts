@@ -36,7 +36,9 @@ export class AppleWalletWeb extends WebPlugin implements AppleWalletPlugin {
     throw this.unavailable('Apple Wallet is available only on iOS.');
   }
 
-  async syncExtensionState(options: { state: AppleWalletExtensionState }): Promise<void> {
+  async syncExtensionState(options: {
+    state: AppleWalletExtensionState;
+  }): Promise<void> {
     void options;
     throw this.unavailable('Apple Wallet is available only on iOS.');
   }
@@ -47,5 +49,20 @@ export class AppleWalletWeb extends WebPlugin implements AppleWalletPlugin {
 
   deactivateExtensionState(): Promise<void> {
     throw this.unavailable('Apple Wallet is available only on iOS.');
+  }
+
+  async showNativeButton(_options: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  }): Promise<void> {
+    // Web implementation not available
+    return;
+  }
+
+  async hideNativeButton(): Promise<void> {
+    // Web implementation not available
+    return;
   }
 }

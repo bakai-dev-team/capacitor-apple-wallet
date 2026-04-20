@@ -440,4 +440,38 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
 
         return .visa
     }
+
+    // MARK: - Native PKAddPassButton
+
+    @objc func showNativeButton(_ call: CAPPluginCall) {
+        let x      = CGFloat(call.getDouble("x")     ?? 0)
+        let y      = CGFloat(call.getDouble("y")     ?? 0)
+        let width  = CGFloat(call.getDouble("width")  ?? 200)
+        let height = CGFloat(call.getDouble("height") ?? 44)
+
+        DispatchQueue.main.async {
+            self.bridge?.webView?.superview?.viewWithTag(9999)?.removeFromSuperview()
+
+            let btn = PKAddPassButton(addPassButtonStyle: .black)
+            btn.tag = 9999
+            btn.frame = CGRect(x: x, y: y, width: width, height: height)
+            btn.addTarget(self,
+                          action: #selector(self.nativeWalletButtonTapped),
+                          for: .touchUpInside)
+
+            self.bridge?.webView?.superview?.addSubview(btn)
+            call.resolve()
+        }
+    }
+
+    @objc func hideNativeButton(_ call: CAPPluginCall) {
+        DispatchQueue.main.async {
+            self.bridge?.webView?.superview?.viewWithTag(9999)?.removeFromSuperview()
+            call.resolve()
+        }
+    }
+
+    @objc func nativeWalletButtonTapped() {
+        self.notifyListeners("nativeButtonTapped", data: [:])
+    }
 }

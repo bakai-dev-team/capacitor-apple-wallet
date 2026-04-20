@@ -88,7 +88,9 @@ export interface AppleWalletPlugin {
 
   isTokenized(options: IsTokenizedOptions): Promise<IsTokenizedResult>;
 
-  syncExtensionState(options: { state: AppleWalletExtensionState }): Promise<void>;
+  syncExtensionState(options: {
+    state: AppleWalletExtensionState;
+  }): Promise<void>;
 
   clearExtensionState(): Promise<void>;
 
@@ -100,4 +102,17 @@ export interface AppleWalletPlugin {
   ): Promise<PluginListenerHandle>;
 
   removeAllListeners(): Promise<void>;
+  showNativeButton(options: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  }): Promise<void>;
+
+  hideNativeButton(): Promise<void>;
+
+  addListener(
+    eventName: 'nativeButtonTapped',
+    listenerFunc: () => void,
+  ): Promise<PluginListenerHandle>;
 }
