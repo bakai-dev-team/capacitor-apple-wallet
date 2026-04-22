@@ -51,18 +51,8 @@ export class AppleWalletWeb extends WebPlugin implements AppleWalletPlugin {
     throw this.unavailable('Apple Wallet is available only on iOS.');
   }
 
-  async showNativeButton(_options: {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  }): Promise<void> {
-    // Web implementation not available
-    return;
-  }
-
-  async hideNativeButton(): Promise<void> {
-    // Web implementation not available
-    return;
+  async getButtonText(): Promise<{ value: string }> {
+    console.warn('getButtonText is not implemented on web. Returning default.');
+    return { value: 'Add to Apple Wallet' };
   }
 }

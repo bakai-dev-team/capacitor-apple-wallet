@@ -11,6 +11,5 @@ CAP_PLUGIN(CapAppleWalletPlugin, "AppleWallet",
            CAP_PLUGIN_METHOD(syncExtensionState, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(clearExtensionState, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(deactivateExtensionState, CAPPluginReturnPromise);
-           CAP_PLUGIN_METHOD(showNativeButton, CAPPluginReturnPromise);
-           CAP_PLUGIN_METHOD(hideNativeButton, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(getButtonText, CAPPluginReturnPromise);
 )

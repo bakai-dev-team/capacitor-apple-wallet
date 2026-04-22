@@ -10,11 +10,7 @@ export declare class AppleWalletWeb extends WebPlugin implements AppleWalletPlug
     }): Promise<void>;
     clearExtensionState(): Promise<void>;
     deactivateExtensionState(): Promise<void>;
-    showNativeButton(_options: {
-        x: number;
-        y: number;
-        width: number;
-        height: number;
-    }): Promise<void>;
-    hideNativeButton(): Promise<void>;
+    getButtonText(): Promise<{
+        value: string;
+    }>;
 }
