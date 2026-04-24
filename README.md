@@ -48,14 +48,14 @@ if (status.isTokenized) {
 ### startProvisioning(...)
 
 ```typescript
-startProvisioning(options: StartProvisioningOptions) => any
+startProvisioning(options: StartProvisioningOptions) => Promise<AddCardResult>
 ```
 
 | Param         | Type                                                                          |
 | ------------- | ----------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#startprovisioningoptions">StartProvisioningOptions</a></code> |
 
-**Returns:** <code>any</code>
+**Returns:** <code>Promise&lt;<a href="#addcardresult">AddCardResult</a>&gt;</code>
 
 --------------------
 
@@ -63,14 +63,12 @@ startProvisioning(options: StartProvisioningOptions) => any
 ### completeProvisioning(...)
 
 ```typescript
-completeProvisioning(options: CompleteProvisioningOptions) => any
+completeProvisioning(options: CompleteProvisioningOptions) => Promise<void>
 ```
 
 | Param         | Type                                                                                |
 | ------------- | ----------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#completeprovisioningoptions">CompleteProvisioningOptions</a></code> |
-
-**Returns:** <code>any</code>
 
 --------------------
 
@@ -78,14 +76,12 @@ completeProvisioning(options: CompleteProvisioningOptions) => any
 ### cancelProvisioning(...)
 
 ```typescript
-cancelProvisioning(options?: CancelProvisioningOptions | undefined) => any
+cancelProvisioning(options?: CancelProvisioningOptions | undefined) => Promise<void>
 ```
 
 | Param         | Type                                                                            |
 | ------------- | ------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#cancelprovisioningoptions">CancelProvisioningOptions</a></code> |
-
-**Returns:** <code>any</code>
 
 --------------------
 
@@ -93,14 +89,14 @@ cancelProvisioning(options?: CancelProvisioningOptions | undefined) => any
 ### isTokenized(...)
 
 ```typescript
-isTokenized(options: IsTokenizedOptions) => any
+isTokenized(options: IsTokenizedOptions) => Promise<IsTokenizedResult>
 ```
 
 | Param         | Type                                                              |
 | ------------- | ----------------------------------------------------------------- |
 | **`options`** | <code><a href="#istokenizedoptions">IsTokenizedOptions</a></code> |
 
-**Returns:** <code>any</code>
+**Returns:** <code>Promise&lt;<a href="#istokenizedresult">IsTokenizedResult</a>&gt;</code>
 
 --------------------
 
@@ -108,14 +104,14 @@ isTokenized(options: IsTokenizedOptions) => any
 ### syncExtensionState(...)
 
 ```typescript
-syncExtensionState(options: { state: AppleWalletExtensionState; }) => any
+syncExtensionState(options: { state: AppleWalletExtensionState; }) => Promise<SyncExtensionStateResult>
 ```
 
 | Param         | Type                                                                                        |
 | ------------- | ------------------------------------------------------------------------------------------- |
 | **`options`** | <code>{ state: <a href="#applewalletextensionstate">AppleWalletExtensionState</a>; }</code> |
 
-**Returns:** <code>any</code>
+**Returns:** <code>Promise&lt;<a href="#syncextensionstateresult">SyncExtensionStateResult</a>&gt;</code>
 
 --------------------
 
@@ -123,10 +119,8 @@ syncExtensionState(options: { state: AppleWalletExtensionState; }) => any
 ### clearExtensionState()
 
 ```typescript
-clearExtensionState() => any
+clearExtensionState() => Promise<void>
 ```
-
-**Returns:** <code>any</code>
 
 --------------------
 
@@ -134,10 +128,8 @@ clearExtensionState() => any
 ### deactivateExtensionState()
 
 ```typescript
-deactivateExtensionState() => any
+deactivateExtensionState() => Promise<void>
 ```
-
-**Returns:** <code>any</code>
 
 --------------------
 
@@ -145,7 +137,7 @@ deactivateExtensionState() => any
 ### addListener('walletProvisioningData', ...)
 
 ```typescript
-addListener(eventName: 'walletProvisioningData', listenerFunc: (event: ProvisioningDataEvent) => void) => any
+addListener(eventName: 'walletProvisioningData', listenerFunc: (event: ProvisioningDataEvent) => void) => Promise<PluginListenerHandle>
 ```
 
 | Param              | Type                                                                                        |
@@ -153,7 +145,7 @@ addListener(eventName: 'walletProvisioningData', listenerFunc: (event: Provision
 | **`eventName`**    | <code>'walletProvisioningData'</code>                                                       |
 | **`listenerFunc`** | <code>(event: <a href="#provisioningdataevent">ProvisioningDataEvent</a>) =&gt; void</code> |
 
-**Returns:** <code>any</code>
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
 --------------------
 
@@ -161,10 +153,8 @@ addListener(eventName: 'walletProvisioningData', listenerFunc: (event: Provision
 ### removeAllListeners()
 
 ```typescript
-removeAllListeners() => any
+removeAllListeners() => Promise<void>
 ```
-
-**Returns:** <code>any</code>
 
 --------------------
 
@@ -172,25 +162,15 @@ removeAllListeners() => any
 ### getButtonText()
 
 ```typescript
-getButtonText() => any
+getButtonText() => Promise<{ value: string; }>
 ```
 
-**Returns:** <code>any</code>
+**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
 
 --------------------
 
 
 ### Interfaces
-
-
-#### StartProvisioningOptions
-
-| Prop                           | Type                                                      |
-| ------------------------------ | --------------------------------------------------------- |
-| **`primaryAccountSuffix`**     | <code>string</code>                                       |
-| **`paymentNetwork`**           | <code><a href="#paymentnetwork">PaymentNetwork</a></code> |
-| **`primaryAccountIdentifier`** | <code>string</code>                                       |
-| **`localizedDescription`**     | <code>string</code>                                       |
 
 
 #### AddCardResult
@@ -202,6 +182,16 @@ getButtonText() => any
 | **`primaryAccountNumberSuffix`** | <code>string</code>                |
 | **`deviceAccountIdentifier`**    | <code>string</code>                |
 | **`deviceAccountNumberSuffix`**  | <code>string</code>                |
+
+
+#### StartProvisioningOptions
+
+| Prop                           | Type                                                      |
+| ------------------------------ | --------------------------------------------------------- |
+| **`primaryAccountSuffix`**     | <code>string</code>                                       |
+| **`paymentNetwork`**           | <code><a href="#paymentnetwork">PaymentNetwork</a></code> |
+| **`primaryAccountIdentifier`** | <code>string</code>                                       |
+| **`localizedDescription`**     | <code>string</code>                                       |
 
 
 #### CompleteProvisioningOptions
@@ -220,6 +210,13 @@ getButtonText() => any
 | **`reason`** | <code>string</code> |
 
 
+#### IsTokenizedResult
+
+| Prop              | Type                 |
+| ----------------- | -------------------- |
+| **`isTokenized`** | <code>boolean</code> |
+
+
 #### IsTokenizedOptions
 
 | Prop                           | Type                 |
@@ -228,11 +225,22 @@ getButtonText() => any
 | **`includeRemote`**            | <code>boolean</code> |
 
 
-#### IsTokenizedResult
+#### SyncExtensionStateResult
 
-| Prop              | Type                 |
-| ----------------- | -------------------- |
-| **`isTokenized`** | <code>boolean</code> |
+| Prop        | Type                      |
+| ----------- | ------------------------- |
+| **`cards`** | <code>WalletCard[]</code> |
+
+
+#### WalletCard
+
+| Prop                             | Type                 |
+| -------------------------------- | -------------------- |
+| **`primaryAccountIdentifier`**   | <code>string</code>  |
+| **`primaryAccountNumberSuffix`** | <code>string</code>  |
+| **`deviceAccountIdentifier`**    | <code>string</code>  |
+| **`deviceAccountNumberSuffix`**  | <code>string</code>  |
+| **`isRemote`**                   | <code>boolean</code> |
 
 
 #### AppleWalletExtensionState
@@ -251,21 +259,21 @@ getButtonText() => any
 | **`lang`**         | <code>string</code> |
 
 
-#### ProvisioningDataEvent
-
-| Prop                           | Type                |
-| ------------------------------ | ------------------- |
-| **`primaryAccountIdentifier`** | <code>string</code> |
-| **`certificates`**             | <code>{}</code>     |
-| **`nonce`**                    | <code>string</code> |
-| **`nonceSignature`**           | <code>string</code> |
-
-
 #### PluginListenerHandle
 
-| Prop         | Type                      |
-| ------------ | ------------------------- |
-| **`remove`** | <code>() =&gt; any</code> |
+| Prop         | Type                                      |
+| ------------ | ----------------------------------------- |
+| **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
+
+
+#### ProvisioningDataEvent
+
+| Prop                           | Type                  |
+| ------------------------------ | --------------------- |
+| **`primaryAccountIdentifier`** | <code>string</code>   |
+| **`certificates`**             | <code>string[]</code> |
+| **`nonce`**                    | <code>string</code>   |
+| **`nonceSignature`**           | <code>string</code>   |
 
 
 ### Enums

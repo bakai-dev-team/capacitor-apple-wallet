@@ -79,6 +79,18 @@ export interface AppleWalletExtensionState {
   updatedAt: number;
 }
 
+export interface WalletCard {
+  primaryAccountIdentifier?: string;
+  primaryAccountNumberSuffix?: string;
+  deviceAccountIdentifier?: string;
+  deviceAccountNumberSuffix?: string;
+  isRemote: boolean;
+}
+
+export interface SyncExtensionStateResult {
+  cards: WalletCard[];
+}
+
 export interface AppleWalletPlugin {
   startProvisioning(options: StartProvisioningOptions): Promise<AddCardResult>;
 
@@ -90,7 +102,7 @@ export interface AppleWalletPlugin {
 
   syncExtensionState(options: {
     state: AppleWalletExtensionState;
-  }): Promise<void>;
+  }): Promise<SyncExtensionStateResult>;
 
   clearExtensionState(): Promise<void>;
 

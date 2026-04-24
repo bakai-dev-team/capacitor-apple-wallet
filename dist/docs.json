@@ -7,7 +7,7 @@
     "methods": [
       {
         "name": "startProvisioning",
-        "signature": "(options: StartProvisioningOptions) => any",
+        "signature": "(options: StartProvisioningOptions) => Promise<AddCardResult>",
         "parameters": [
           {
             "name": "options",
@@ -15,18 +15,18 @@
             "type": "StartProvisioningOptions"
           }
         ],
-        "returns": "any",
+        "returns": "Promise<AddCardResult>",
         "tags": [],
         "docs": "",
         "complexTypes": [
-          "StartProvisioningOptions",
-          "AddCardResult"
+          "AddCardResult",
+          "StartProvisioningOptions"
         ],
         "slug": "startprovisioning"
       },
       {
         "name": "completeProvisioning",
-        "signature": "(options: CompleteProvisioningOptions) => any",
+        "signature": "(options: CompleteProvisioningOptions) => Promise<void>",
         "parameters": [
           {
             "name": "options",
@@ -34,7 +34,7 @@
             "type": "CompleteProvisioningOptions"
           }
         ],
-        "returns": "any",
+        "returns": "Promise<void>",
         "tags": [],
         "docs": "",
         "complexTypes": [
@@ -44,7 +44,7 @@
       },
       {
         "name": "cancelProvisioning",
-        "signature": "(options?: CancelProvisioningOptions | undefined) => any",
+        "signature": "(options?: CancelProvisioningOptions | undefined) => Promise<void>",
         "parameters": [
           {
             "name": "options",
@@ -52,7 +52,7 @@
             "type": "CancelProvisioningOptions | undefined"
           }
         ],
-        "returns": "any",
+        "returns": "Promise<void>",
         "tags": [],
         "docs": "",
         "complexTypes": [
@@ -62,7 +62,7 @@
       },
       {
         "name": "isTokenized",
-        "signature": "(options: IsTokenizedOptions) => any",
+        "signature": "(options: IsTokenizedOptions) => Promise<IsTokenizedResult>",
         "parameters": [
           {
             "name": "options",
@@ -70,18 +70,18 @@
             "type": "IsTokenizedOptions"
           }
         ],
-        "returns": "any",
+        "returns": "Promise<IsTokenizedResult>",
         "tags": [],
         "docs": "",
         "complexTypes": [
-          "IsTokenizedOptions",
-          "IsTokenizedResult"
+          "IsTokenizedResult",
+          "IsTokenizedOptions"
         ],
         "slug": "istokenized"
       },
       {
         "name": "syncExtensionState",
-        "signature": "(options: { state: AppleWalletExtensionState; }) => any",
+        "signature": "(options: { state: AppleWalletExtensionState; }) => Promise<SyncExtensionStateResult>",
         "parameters": [
           {
             "name": "options",
@@ -89,19 +89,20 @@
             "type": "{ state: AppleWalletExtensionState; }"
           }
         ],
-        "returns": "any",
+        "returns": "Promise<SyncExtensionStateResult>",
         "tags": [],
         "docs": "",
         "complexTypes": [
+          "SyncExtensionStateResult",
           "AppleWalletExtensionState"
         ],
         "slug": "syncextensionstate"
       },
       {
         "name": "clearExtensionState",
-        "signature": "() => any",
+        "signature": "() => Promise<void>",
         "parameters": [],
-        "returns": "any",
+        "returns": "Promise<void>",
         "tags": [],
         "docs": "",
         "complexTypes": [],
@@ -109,9 +110,9 @@
       },
       {
         "name": "deactivateExtensionState",
-        "signature": "() => any",
+        "signature": "() => Promise<void>",
         "parameters": [],
-        "returns": "any",
+        "returns": "Promise<void>",
         "tags": [],
         "docs": "",
         "complexTypes": [],
@@ -119,7 +120,7 @@
       },
       {
         "name": "addListener",
-        "signature": "(eventName: 'walletProvisioningData', listenerFunc: (event: ProvisioningDataEvent) => void) => any",
+        "signature": "(eventName: 'walletProvisioningData', listenerFunc: (event: ProvisioningDataEvent) => void) => Promise<PluginListenerHandle>",
         "parameters": [
           {
             "name": "eventName",
@@ -132,20 +133,20 @@
             "type": "(event: ProvisioningDataEvent) => void"
           }
         ],
-        "returns": "any",
+        "returns": "Promise<PluginListenerHandle>",
         "tags": [],
         "docs": "",
         "complexTypes": [
-          "ProvisioningDataEvent",
-          "PluginListenerHandle"
+          "PluginListenerHandle",
+          "ProvisioningDataEvent"
         ],
         "slug": "addlistenerwalletprovisioningdata"
       },
       {
         "name": "removeAllListeners",
-        "signature": "() => any",
+        "signature": "() => Promise<void>",
         "parameters": [],
-        "returns": "any",
+        "returns": "Promise<void>",
         "tags": [],
         "docs": "",
         "complexTypes": [],
@@ -153,9 +154,9 @@
       },
       {
         "name": "getButtonText",
-        "signature": "() => any",
+        "signature": "() => Promise<{ value: string; }>",
         "parameters": [],
-        "returns": "any",
+        "returns": "Promise<{ value: string; }>",
         "tags": [],
         "docs": "",
         "complexTypes": [],
@@ -165,45 +166,6 @@
     "properties": []
   },
   "interfaces": [
-    {
-      "name": "StartProvisioningOptions",
-      "slug": "startprovisioningoptions",
-      "docs": "",
-      "tags": [],
-      "methods": [],
-      "properties": [
-        {
-          "name": "primaryAccountSuffix",
-          "tags": [],
-          "docs": "",
-          "complexTypes": [],
-          "type": "string"
-        },
-        {
-          "name": "paymentNetwork",
-          "tags": [],
-          "docs": "",
-          "complexTypes": [
-            "PaymentNetwork"
-          ],
-          "type": "PaymentNetwork"
-        },
-        {
-          "name": "primaryAccountIdentifier",
-          "tags": [],
-          "docs": "",
-          "complexTypes": [],
-          "type": "string"
-        },
-        {
-          "name": "localizedDescription",
-          "tags": [],
-          "docs": "",
-          "complexTypes": [],
-          "type": "string | undefined"
-        }
-      ]
-    },
     {
       "name": "AddCardResult",
       "slug": "addcardresult",
@@ -241,6 +203,45 @@
         },
         {
           "name": "deviceAccountNumberSuffix",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        }
+      ]
+    },
+    {
+      "name": "StartProvisioningOptions",
+      "slug": "startprovisioningoptions",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "primaryAccountSuffix",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "paymentNetwork",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [
+            "PaymentNetwork"
+          ],
+          "type": "PaymentNetwork"
+        },
+        {
+          "name": "primaryAccountIdentifier",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "localizedDescription",
           "tags": [],
           "docs": "",
           "complexTypes": [],
@@ -295,6 +296,22 @@
       ]
     },
     {
+      "name": "IsTokenizedResult",
+      "slug": "istokenizedresult",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "isTokenized",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "boolean"
+        }
+      ]
+    },
+    {
       "name": "IsTokenizedOptions",
       "slug": "istokenizedoptions",
       "docs": "",
@@ -318,14 +335,60 @@
       ]
     },
     {
-      "name": "IsTokenizedResult",
-      "slug": "istokenizedresult",
+      "name": "SyncExtensionStateResult",
+      "slug": "syncextensionstateresult",
       "docs": "",
       "tags": [],
       "methods": [],
       "properties": [
         {
-          "name": "isTokenized",
+          "name": "cards",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [
+            "WalletCard"
+          ],
+          "type": "WalletCard[]"
+        }
+      ]
+    },
+    {
+      "name": "WalletCard",
+      "slug": "walletcard",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "primaryAccountIdentifier",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "primaryAccountNumberSuffix",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "deviceAccountIdentifier",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "deviceAccountNumberSuffix",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "isRemote",
           "tags": [],
           "docs": "",
           "complexTypes": [],
@@ -382,6 +445,22 @@
       ]
     },
     {
+      "name": "PluginListenerHandle",
+      "slug": "pluginlistenerhandle",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "remove",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "() => Promise<void>"
+        }
+      ]
+    },
+    {
       "name": "ProvisioningDataEvent",
       "slug": "provisioningdataevent",
       "docs": "",
@@ -400,7 +479,7 @@
           "tags": [],
           "docs": "",
           "complexTypes": [],
-          "type": "{}"
+          "type": "string[]"
         },
         {
           "name": "nonce",
@@ -415,22 +494,6 @@
           "docs": "",
           "complexTypes": [],
           "type": "string"
-        }
-      ]
-    },
-    {
-      "name": "PluginListenerHandle",
-      "slug": "pluginlistenerhandle",
-      "docs": "",
-      "tags": [],
-      "methods": [],
-      "properties": [
-        {
-          "name": "remove",
-          "tags": [],
-          "docs": "",
-          "complexTypes": [],
-          "type": "() => any"
         }
       ]
     }

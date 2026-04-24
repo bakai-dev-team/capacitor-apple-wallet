@@ -70,6 +70,15 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
     private var pendingRequestHandler: ((PKAddPaymentPassRequest) -> Void)?
     private var pendingProvisioningError: String?
 
+    private func debugLog(_ message: String, details: Any? = nil) {
+        if let details {
+            print("[AppleWalletPlugin] \(message): \(details)")
+            return
+        }
+
+        print("[AppleWalletPlugin] \(message)")
+    }
+
     @objc func isTokenized(_ call: CAPPluginCall) {
         do {
             let primaryAccountIdentifier = try requireString(call: call, key: "primaryAccountIdentifier")
@@ -85,6 +94,16 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
                 $0.primaryAccountIdentifier == primaryAccountIdentifier
             }
             let isTokenized = foundOnLocalDevice || (includeRemote && foundOnRemoteDevice)
+
+            debugLog("isTokenized lookup", details: [
+                "primaryAccountIdentifier": primaryAccountIdentifier,
+                "includeRemote": includeRemote,
+                "foundOnLocalDevice": foundOnLocalDevice,
+                "foundOnRemoteDevice": foundOnRemoteDevice,
+                "isTokenized": isTokenized,
+                "localCards": localPasses.map { mapWalletCard($0, isRemote: false) },
+                "remoteCards": remotePasses.map { mapWalletCard($0, isRemote: true) }
+            ])
 
             call.resolve([
                 "isTokenized": isTokenized
@@ -108,6 +127,12 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
         do {
             let configuration = try makeRequestConfiguration(call: call)
             let primaryAccountIdentifier = try requireString(call: call, key: "primaryAccountIdentifier")
+
+            debugLog("startProvisioning request", details: [
+                "primaryAccountIdentifier": primaryAccountIdentifier,
+                "primaryAccountSuffix": configuration.primaryAccountSuffix,
+                "localizedDescription": configuration.localizedDescription as Any
+            ])
 
             guard let enrollViewController = PKAddPaymentPassViewController(
                 requestConfiguration: configuration,
@@ -172,7 +197,15 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
             let existingState = try loadExtensionState()
             let mergedState = mergeExtensionState(incomingState: state, existingState: existingState)
             try saveExtensionState(mergedState)
-            call.resolve()
+            let cards = getWalletCards()
+            debugLog("syncExtensionState result", details: [
+                "updatedAt": mergedState.updatedAt,
+                "cardCount": cards.count,
+                "cards": cards
+            ])
+            call.resolve([
+                "cards": cards
+            ])
         } catch {
             call.reject(error.localizedDescription, "INVALID_ARGUMENTS")
         }
@@ -223,6 +256,16 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
     ) {
         let call = activeCall
         let pendingError = pendingProvisioningError
+
+        debugLog("didFinishAdding callback", details: [
+            "hasPass": pass != nil,
+            "primaryAccountIdentifier": pass?.primaryAccountIdentifier as Any,
+            "primaryAccountNumberSuffix": pass?.primaryAccountNumberSuffix as Any,
+            "deviceAccountIdentifier": pass?.deviceAccountIdentifier as Any,
+            "deviceAccountNumberSuffix": pass?.deviceAccountNumberSuffix as Any,
+            "error": error?.localizedDescription as Any,
+            "pendingError": pendingError as Any
+        ])
 
         DispatchQueue.main.async {
             controller.dismiss(animated: true) {
@@ -379,6 +422,25 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
         )
 
         try saveExtensionState(updatedState)
+    }
+
+    private func getWalletCards() -> [[String: Any]] {
+        let passLibrary = PKPassLibrary()
+        let localPasses = passLibrary.passes(of: .secureElement).compactMap { $0 as? PKSecureElementPass }
+        let remotePasses = passLibrary.remoteSecureElementPasses
+
+        return localPasses.map { mapWalletCard($0, isRemote: false) }
+            + remotePasses.map { mapWalletCard($0, isRemote: true) }
+    }
+
+    private func mapWalletCard(_ pass: PKSecureElementPass, isRemote: Bool) -> [String: Any] {
+        [
+            "primaryAccountIdentifier": pass.primaryAccountIdentifier as Any,
+            "primaryAccountNumberSuffix": pass.primaryAccountNumberSuffix as Any,
+            "deviceAccountIdentifier": pass.deviceAccountIdentifier as Any,
+            "deviceAccountNumberSuffix": pass.deviceAccountNumberSuffix as Any,
+            "isRemote": isRemote
+        ]
     }
 
     // SwiftLint flags this compatibility mapper as too complex because of

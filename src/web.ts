@@ -8,6 +8,7 @@ import type {
   CompleteProvisioningOptions,
   IsTokenizedOptions,
   IsTokenizedResult,
+  SyncExtensionStateResult,
   StartProvisioningOptions,
 } from './definitions';
 
@@ -38,7 +39,7 @@ export class AppleWalletWeb extends WebPlugin implements AppleWalletPlugin {
 
   async syncExtensionState(options: {
     state: AppleWalletExtensionState;
-  }): Promise<void> {
+  }): Promise<SyncExtensionStateResult> {
     void options;
     throw this.unavailable('Apple Wallet is available only on iOS.');
   }
