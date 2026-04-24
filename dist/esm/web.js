@@ -26,6 +26,10 @@ export class AppleWalletWeb extends WebPlugin {
     deactivateExtensionState() {
         throw this.unavailable('Apple Wallet is available only on iOS.');
     }
+    async checkWalletStatus() {
+        throw this.unavailable('Apple Wallet is available only on iOS.');
+    }
+    ;
     async getButtonText() {
         console.warn('getButtonText is not implemented on web. Returning default.');
         return { value: 'Add to Apple Wallet' };

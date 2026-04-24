@@ -1,6 +1,7 @@
 import Foundation
 import PassKit
 import Capacitor
+import WatchConnectivity
 
 private let walletExtensionAppGroup = "group.kg.bta.mobilebank2.apple-wallet"
 private let walletExtensionStateKey = "apple_wallet_extension_state"
@@ -512,4 +513,79 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
                  ])
         }
     }
+
+@objc func checkWalletStatus(_ call: CAPPluginCall) {
+      let passLibrary = PKPassLibrary()
+      let localPasses = passLibrary.passes(of: .secureElement)
+          .compactMap { $0 as? PKSecureElementPass }
+      let localCards = localPasses.map { pass in
+          [
+              "serialNumber": pass.serialNumber,
+              "primaryAccountIdentifier": pass.primaryAccountIdentifier ?? "",
+              "deviceAccountIdentifier": pass.deviceAccountIdentifier ?? "",
+              "primaryAccountNumberSuffix": pass.primaryAccountNumberSuffix,
+              "deviceAccountNumberSuffix": pass.deviceAccountNumberSuffix ?? ""
+          ] as [String: Any]
+      }
+
+      guard WCSession.isSupported() else {
+            call.resolve([
+                "iphone": localCards,
+                "watch": [],
+                "watchPaired": false
+            ])
+            return
+        }
+      let session = WCSession.default
+        WatchSessionActivator.shared.activate(session: session) {
+            guard session.isPaired else {
+                call.resolve([
+                    "iphone": localCards,
+                    "watch": [],
+                    "watchPaired": false
+                ])
+                return
+            }
+           let remotePasses = passLibrary.remoteSecureElementPasses
+           let remoteCards = remotePasses.map { pass in
+              [
+                "serialNumber": pass.serialNumber,
+                "primaryAccountIdentifier": pass.primaryAccountIdentifier ?? "",
+                "deviceAccountIdentifier": pass.deviceAccountIdentifier ?? "",
+                "primaryAccountNumberSuffix": pass.primaryAccountNumberSuffix,
+                "deviceAccountNumberSuffix": pass.deviceAccountNumberSuffix ?? ""
+              ] as [String: Any]
+            }
+            call.resolve([
+                "iphone": localCards,
+                "watch": remoteCards,
+                "watchPaired": true
+            ])
+        }
+    }
+}
+
+private class WatchSessionActivator: NSObject, WCSessionDelegate {
+    static let shared = WatchSessionActivator()
+    private var completionHandler: (() -> Void)?
+
+    func activate(session: WCSession, completion: @escaping () -> Void) {
+        if session.activationState == .activated {
+            completion()
+            return
+        }
+        completionHandler = completion
+        session.delegate = self
+        session.activate()
+    }
+
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+        DispatchQueue.main.async {
+            self.completionHandler?()
+            self.completionHandler = nil
+        }
+    }
+
+    func sessionDidBecomeInactive(_ session: WCSession) {}
+    func sessionDidDeactivate(_ session: WCSession) {}
 }
