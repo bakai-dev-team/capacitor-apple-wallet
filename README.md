@@ -37,6 +37,7 @@ if (status.isTokenized) {
 * [`addListener('walletProvisioningData', ...)`](#addlistenerwalletprovisioningdata)
 * [`removeAllListeners()`](#removealllisteners)
 * [`getButtonText()`](#getbuttontext)
+* [`checkWalletStatus()`](#checkwalletstatus)
 * [Interfaces](#interfaces)
 * [Enums](#enums)
 
@@ -180,6 +181,17 @@ getButtonText() => any
 --------------------
 
 
+### checkWalletStatus()
+
+```typescript
+checkWalletStatus() => any
+```
+
+**Returns:** <code>any</code>
+
+--------------------
+
+
 ### Interfaces
 
 
@@ -266,6 +278,27 @@ getButtonText() => any
 | Prop         | Type                      |
 | ------------ | ------------------------- |
 | **`remove`** | <code>() =&gt; any</code> |
+
+
+#### CheckWalletStatusResult
+
+| Prop              | Type                 |
+| ----------------- | -------------------- |
+| **`iphone`**      | <code>{}</code>      |
+| **`watch`**       | <code>{}</code>      |
+| **`watchPaired`** | <code>boolean</code> |
+
+
+#### AppleWalletCardData
+
+| Prop                             | Type                 |
+| -------------------------------- | -------------------- |
+| **`serialNumber`**               | <code>number</code>  |
+| **`isRemotePass`**               | <code>boolean</code> |
+| **`primaryAccountIdentifier`**   | <code>string</code>  |
+| **`deviceAccountIdentifier`**    | <code>string</code>  |
+| **`primaryAccountNumberSuffix`** | <code>number</code>  |
+| **`deviceAccountNumberSuffix`**  | <code>number</code>  |
 
 
 ### Enums

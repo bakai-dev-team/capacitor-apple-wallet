@@ -10,6 +10,7 @@ import type {
   IsTokenizedResult,
   StartProvisioningOptions,
 } from './definitions';
+import { CheckWalletStatusResult } from './definitions';
 
 export class AppleWalletWeb extends WebPlugin implements AppleWalletPlugin {
   async startProvisioning(
@@ -50,6 +51,10 @@ export class AppleWalletWeb extends WebPlugin implements AppleWalletPlugin {
   deactivateExtensionState(): Promise<void> {
     throw this.unavailable('Apple Wallet is available only on iOS.');
   }
+
+  async checkWalletStatus():Promise<CheckWalletStatusResult>{
+    throw this.unavailable('Apple Wallet is available only on iOS.');
+  };
 
   async getButtonText(): Promise<{ value: string }> {
     console.warn('getButtonText is not implemented on web. Returning default.');

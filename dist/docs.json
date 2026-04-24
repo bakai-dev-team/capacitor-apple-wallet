@@ -160,6 +160,18 @@
         "docs": "",
         "complexTypes": [],
         "slug": "getbuttontext"
+      },
+      {
+        "name": "checkWalletStatus",
+        "signature": "() => any",
+        "parameters": [],
+        "returns": "any",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [
+          "CheckWalletStatusResult"
+        ],
+        "slug": "checkwalletstatus"
       }
     ],
     "properties": []
@@ -431,6 +443,91 @@
           "docs": "",
           "complexTypes": [],
           "type": "() => any"
+        }
+      ]
+    },
+    {
+      "name": "CheckWalletStatusResult",
+      "slug": "checkwalletstatusresult",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "iphone",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [
+            "AppleWalletCardData"
+          ],
+          "type": "{}"
+        },
+        {
+          "name": "watch",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [
+            "AppleWalletCardData"
+          ],
+          "type": "{}"
+        },
+        {
+          "name": "watchPaired",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "AppleWalletCardData",
+      "slug": "applewalletcarddata",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "serialNumber",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "number"
+        },
+        {
+          "name": "isRemotePass",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "boolean"
+        },
+        {
+          "name": "primaryAccountIdentifier",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "deviceAccountIdentifier",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "primaryAccountNumberSuffix",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "number"
+        },
+        {
+          "name": "deviceAccountNumberSuffix",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "number"
         }
       ]
     }

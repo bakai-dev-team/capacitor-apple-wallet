@@ -53,6 +53,21 @@ export interface IsTokenizedResult {
   isTokenized: boolean;
 }
 
+interface AppleWalletCardData {
+  serialNumber: number;
+  isRemotePass: boolean;
+  primaryAccountIdentifier: string;
+  deviceAccountIdentifier: string;
+  primaryAccountNumberSuffix: number;
+  deviceAccountNumberSuffix: number;
+}
+
+export interface CheckWalletStatusResult {
+  iphone: AppleWalletCardData[];
+  watch: AppleWalletCardData[];
+  watchPaired: boolean;
+}
+
 export interface AddCardResult {
   status: 'added' | 'canceled';
   primaryAccountIdentifier?: string;
@@ -103,4 +118,5 @@ export interface AppleWalletPlugin {
 
   removeAllListeners(): Promise<void>;
   getButtonText(): Promise<{ value: string }>;
+  checkWalletStatus(): Promise<CheckWalletStatusResult>;
 }
