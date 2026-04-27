@@ -20,12 +20,14 @@ export declare enum PaymentNetwork {
 }
 export interface StartProvisioningOptions {
     primaryAccountSuffix: string;
+    cardId: string;
     paymentNetwork: PaymentNetwork;
     primaryAccountIdentifier: string;
     localizedDescription?: string;
 }
 export interface ProvisioningDataEvent {
     primaryAccountIdentifier: string;
+    cardId: string;
     certificates: string[];
     nonce: string;
     nonceSignature: string;

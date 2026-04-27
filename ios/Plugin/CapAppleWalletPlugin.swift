@@ -8,6 +8,7 @@ private let walletExtensionStateKey = "apple_wallet_extension_state"
 
 private struct AddCardContext {
     let primaryAccountIdentifier: String
+    let cardId:String
 }
 
 private struct PluginError: LocalizedError {
@@ -128,7 +129,7 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
         do {
             let configuration = try makeRequestConfiguration(call: call)
             let primaryAccountIdentifier = try requireString(call: call, key: "primaryAccountIdentifier")
-
+            let cardId = try requireString(call: call, key: "cardId")
             debugLog("startProvisioning request", details: [
                 "primaryAccountIdentifier": primaryAccountIdentifier,
                 "primaryAccountSuffix": configuration.primaryAccountSuffix,
@@ -144,7 +145,7 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
             }
 
             activeCall = call
-            addCardContext = AddCardContext(primaryAccountIdentifier: primaryAccountIdentifier)
+            addCardContext = AddCardContext(primaryAccountIdentifier: primaryAccountIdentifier, cardId: cardId)
             pendingRequestHandler = nil
             pendingProvisioningError = nil
 
@@ -243,6 +244,7 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
         pendingProvisioningError = nil
 
         notifyListeners("walletProvisioningData", data: [
+            "cardId":context.cardId,
             "primaryAccountIdentifier": context.primaryAccountIdentifier,
             "certificates": certificates.map { $0.base64EncodedString() },
             "nonce": nonce.base64EncodedString(),
