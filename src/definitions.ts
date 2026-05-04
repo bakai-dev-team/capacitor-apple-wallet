@@ -78,6 +78,19 @@ export interface AddCardResult {
   deviceAccountNumberSuffix?: string;
 }
 
+export interface AddPassOptions {
+  /**
+   * Base64-encoded contents of a signed .pkpass file.
+   */
+  passData: string;
+}
+
+export interface AddPassResult {
+  status: 'added' | 'canceled';
+  serialNumber?: string;
+  passTypeIdentifier?: string;
+}
+
 export interface AppleWalletExtensionSession {
   extensionAuthToken?: string;
   lang: string;
@@ -137,4 +150,5 @@ export interface AppleWalletPlugin {
   removeAllListeners(): Promise<void>;
   getButtonText(): Promise<{ value: string }>;
   checkWalletStatus(): Promise<CheckWalletStatusResult>;
+  addPass(options: AddPassOptions): Promise<AddPassResult>;
 }

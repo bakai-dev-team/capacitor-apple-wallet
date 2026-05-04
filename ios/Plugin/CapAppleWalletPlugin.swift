@@ -61,11 +61,12 @@ private struct WalletExtensionState: Codable {
 }
 
 @objc(CapAppleWalletPlugin)
-public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDelegate {
+public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDelegate, PKAddPassesViewControllerDelegate {
     private var activeCall: CAPPluginCall?
     private var addCardContext: AddCardContext?
     private var pendingRequestHandler: ((PKAddPaymentPassRequest) -> Void)?
     private var pendingProvisioningError: String?
+    private var pendingPassToAdd: PKPass?
 
     private func debugLog(_ message: String, details: Any? = nil) {
         if let details {
@@ -321,11 +322,48 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
         }
     }
 
+    public func addPassesViewControllerDidFinish(_ controller: PKAddPassesViewController) {
+        let call = activeCall
+        let pendingPass = pendingPassToAdd
+        let passWasAdded = pendingPass.map { PKPassLibrary().containsPass($0) } ?? false
+
+        debugLog("addPassesViewControllerDidFinish callback", details: [
+            "hasPendingPass": pendingPass != nil,
+            "passWasAdded": passWasAdded,
+            "serialNumber": pendingPass?.serialNumber as Any,
+            "passTypeIdentifier": pendingPass?.passTypeIdentifier as Any
+        ])
+
+        DispatchQueue.main.async {
+            controller.dismiss(animated: true) {
+                defer {
+                    self.resetProvisioningState()
+                }
+
+                guard let call else {
+                    return
+                }
+
+                var result: [String: Any] = [
+                    "status": passWasAdded ? "added" : "canceled"
+                ]
+
+                if passWasAdded, let pendingPass {
+                    result["serialNumber"] = pendingPass.serialNumber
+                    result["passTypeIdentifier"] = pendingPass.passTypeIdentifier
+                }
+
+                call.resolve(result)
+            }
+        }
+    }
+
     private func resetProvisioningState() {
         activeCall = nil
         addCardContext = nil
         pendingRequestHandler = nil
         pendingProvisioningError = nil
+        pendingPassToAdd = nil
     }
 
     private func makeRequestConfiguration(call: CAPPluginCall) throws -> PKAddPaymentPassRequestConfiguration {
@@ -351,6 +389,16 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
         request.encryptedPassData = try decodeBase64Field(call: call, key: "encryptedPassData")
         request.ephemeralPublicKey = try decodeBase64Field(call: call, key: "ephemeralPublicKey")
         return request
+    }
+
+    private func makePass(call: CAPPluginCall) throws -> PKPass {
+        let data = try decodeBase64Field(call: call, key: "passData")
+
+        do {
+            return try PKPass(data: data)
+        } catch {
+            throw PluginError(message: "passData must be a valid signed .pkpass file.")
+        }
     }
 
     private func requireString(call: CAPPluginCall, key: String) throws -> String {
@@ -562,6 +610,43 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
                 "watch": remoteCards,
                 "watchPaired": true
             ])
+        }
+    }
+
+    @objc func addPass(_ call: CAPPluginCall) {
+        if activeCall != nil {
+            call.reject("Another Apple Wallet flow is already running.", "ALREADY_IN_PROGRESS")
+            return
+        }
+
+        guard PKAddPassesViewController.canAddPasses() else {
+            call.reject("Apple Wallet pass addition is not available on this device.", "NOT_AVAILABLE")
+            return
+        }
+
+        do {
+            let pass = try makePass(call: call)
+            guard let addPassesViewController = PKAddPassesViewController(pass: pass) else {
+                call.reject("Unable to prepare Apple Wallet pass view controller.", "NOT_CONFIGURED")
+                return
+            }
+
+            activeCall = call
+            pendingPassToAdd = pass
+            addPassesViewController.delegate = self
+
+            DispatchQueue.main.async {
+                guard let viewController = self.bridge?.viewController else {
+                    self.resetProvisioningState()
+                    call.reject("Unable to access the current view controller.", "FAILED")
+                    return
+                }
+
+                viewController.present(addPassesViewController, animated: true)
+            }
+        } catch {
+            resetProvisioningState()
+            call.reject(error.localizedDescription, "INVALID_ARGUMENTS")
         }
     }
 }

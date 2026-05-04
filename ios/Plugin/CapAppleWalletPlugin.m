@@ -13,4 +13,5 @@ CAP_PLUGIN(CapAppleWalletPlugin, "AppleWallet",
            CAP_PLUGIN_METHOD(getExtensionAuthToken, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getButtonText, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(checkWalletStatus, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(addPass, CAPPluginReturnPromise);
 )

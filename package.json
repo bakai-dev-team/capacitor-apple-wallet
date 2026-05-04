@@ -1,6 +1,6 @@
 {
   "name": "capacitor-apple-wallet",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "In-App Provisioning payment cards within an app, without having to go through the process of manually entering payment card details.",
   "keywords": [
     "capacitor",
