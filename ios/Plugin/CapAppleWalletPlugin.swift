@@ -20,22 +20,18 @@ private struct PluginError: LocalizedError {
 }
 
 private struct WalletExtensionSessionState: Codable {
-    let appAuthToken: String
     let extensionAuthToken: String?
     let lang: String?
 
     init(
-        appAuthToken: String,
         extensionAuthToken: String? = nil,
         lang: String? = nil
     ) {
-        self.appAuthToken = appAuthToken
         self.extensionAuthToken = extensionAuthToken
         self.lang = lang
     }
 
     private enum CodingKeys: String, CodingKey {
-        case appAuthToken
         case extensionAuthToken
         case authToken
         case lang
@@ -46,7 +42,6 @@ private struct WalletExtensionSessionState: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let legacyAuthToken = try container.decodeIfPresent(String.self, forKey: .authToken)
 
-        appAuthToken = try container.decodeIfPresent(String.self, forKey: .appAuthToken) ?? legacyAuthToken ?? ""
         extensionAuthToken = try container.decodeIfPresent(String.self, forKey: .extensionAuthToken) ?? legacyAuthToken
         lang = try container.decodeIfPresent(String.self, forKey: .lang)
             ?? container.decodeIfPresent(String.self, forKey: .locale)
@@ -54,8 +49,8 @@ private struct WalletExtensionSessionState: Codable {
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(appAuthToken, forKey: .appAuthToken)
         try container.encodeIfPresent(extensionAuthToken, forKey: .extensionAuthToken)
+        try container.encodeIfPresent(extensionAuthToken, forKey: .authToken)
         try container.encodeIfPresent(lang, forKey: .lang)
     }
 }
@@ -201,6 +196,8 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
             try saveExtensionState(mergedState)
             let cards = getWalletCards()
             debugLog("syncExtensionState result", details: [
+                "hasIncomingExtensionAuthToken": normalizedExtensionAuthToken(from: state.session) != nil,
+                "hasStoredExtensionAuthToken": normalizedExtensionAuthToken(from: mergedState.session) != nil,
                 "updatedAt": mergedState.updatedAt,
                 "cardCount": cards.count,
                 "cards": cards
@@ -215,13 +212,29 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
 
     @objc func clearExtensionState(_ call: CAPPluginCall) {
         clearExtensionState()
+        debugLog("clearExtensionState", details: [
+            "hasStoredExtensionAuthToken": false
+        ])
         call.resolve()
     }
 
-    @objc func deactivateExtensionState(_ call: CAPPluginCall) {
+    @objc func getExtensionAuthToken(_ call: CAPPluginCall) {
         do {
-            try deactivateStoredExtensionState()
-            call.resolve()
+            guard let state = try loadExtensionState(),
+                  let extensionAuthToken = normalizedExtensionAuthToken(from: state.session) else {
+                debugLog("getExtensionAuthToken", details: [
+                    "hasStoredExtensionAuthToken": false
+                ])
+                call.resolve()
+                return
+            }
+
+            debugLog("getExtensionAuthToken", details: [
+                "hasStoredExtensionAuthToken": true
+            ])
+            call.resolve([
+                "extensionAuthToken": extensionAuthToken
+            ])
         } catch {
             call.reject(error.localizedDescription, "FAILED")
         }
@@ -377,8 +390,7 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
         }
 
         let mergedSession = WalletExtensionSessionState(
-            appAuthToken: incomingState.session.appAuthToken,
-            extensionAuthToken: existingState.session.extensionAuthToken,
+            extensionAuthToken: incomingState.session.extensionAuthToken ?? existingState.session.extensionAuthToken,
             lang: incomingState.session.lang ?? existingState.session.lang
         )
 
@@ -409,22 +421,9 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
         userDefaults.synchronize()
     }
 
-    private func deactivateStoredExtensionState() throws {
-        guard let state = try loadExtensionState() else {
-            return
-        }
-
-        let session = WalletExtensionSessionState(
-            appAuthToken: "",
-            extensionAuthToken: nil,
-            lang: state.session.lang
-        )
-        let updatedState = WalletExtensionState(
-            session: session,
-            updatedAt: Date().timeIntervalSince1970 * 1000
-        )
-
-        try saveExtensionState(updatedState)
+    private func normalizedExtensionAuthToken(from session: WalletExtensionSessionState) -> String? {
+        let value = session.extensionAuthToken?.trimmingCharacters(in: .whitespacesAndNewlines)
+        return (value?.isEmpty == false) ? value : nil
     }
 
     private func getWalletCards() -> [[String: Any]] {

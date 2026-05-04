@@ -6,6 +6,7 @@ import type {
   AppleWalletPlugin,
   CancelProvisioningOptions,
   CompleteProvisioningOptions,
+  GetExtensionAuthTokenResult,
   IsTokenizedOptions,
   IsTokenizedResult,
   SyncExtensionStateResult,
@@ -49,7 +50,7 @@ export class AppleWalletWeb extends WebPlugin implements AppleWalletPlugin {
     throw this.unavailable('Apple Wallet is available only on iOS.');
   }
 
-  deactivateExtensionState(): Promise<void> {
+  async getExtensionAuthToken(): Promise<GetExtensionAuthTokenResult> {
     throw this.unavailable('Apple Wallet is available only on iOS.');
   }
 

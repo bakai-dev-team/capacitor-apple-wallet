@@ -79,7 +79,7 @@ export interface AddCardResult {
 }
 
 export interface AppleWalletExtensionSession {
-  appAuthToken: string;
+  extensionAuthToken?: string;
   lang: string;
 }
 
@@ -108,6 +108,10 @@ export interface SyncExtensionStateResult {
   cards: WalletCard[];
 }
 
+export interface GetExtensionAuthTokenResult {
+  extensionAuthToken?: string;
+}
+
 export interface AppleWalletPlugin {
   startProvisioning(options: StartProvisioningOptions): Promise<AddCardResult>;
 
@@ -123,7 +127,7 @@ export interface AppleWalletPlugin {
 
   clearExtensionState(): Promise<void>;
 
-  deactivateExtensionState(): Promise<void>;
+  getExtensionAuthToken(): Promise<GetExtensionAuthTokenResult>;
 
   addListener(
     eventName: 'walletProvisioningData',
