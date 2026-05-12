@@ -94,6 +94,7 @@ export interface AddPassResult {
 export interface AppleWalletExtensionSession {
   extensionAuthToken?: string;
   lang: string;
+  deviceId?: string;
 }
 
 export interface AppleWalletExtensionCard {

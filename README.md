@@ -288,6 +288,7 @@ addPass(options: AddPassOptions) => Promise<AddPassResult>
 | ------------------------ | ------------------- |
 | **`extensionAuthToken`** | <code>string</code> |
 | **`lang`**               | <code>string</code> |
+| **`deviceId`**           | <code>string</code> |
 
 
 #### GetExtensionAuthTokenResult
