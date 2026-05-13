@@ -101,6 +101,7 @@ export interface AppleWalletExtensionSession {
   extensionAuthToken?: string;
   lang: string;
   deviceId?: string;
+  securedToken?: string;
 }
 
 export interface AppleWalletExtensionCard {

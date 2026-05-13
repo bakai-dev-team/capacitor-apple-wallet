@@ -24,15 +24,18 @@ private struct WalletExtensionSessionState: Codable {
     let extensionAuthToken: String?
     let lang: String?
     let deviceId: String?
+    let securedToken: String?
 
     init(
         extensionAuthToken: String? = nil,
         lang: String? = nil,
-        deviceId: String? = nil
+        deviceId: String? = nil,
+        securedToken: String? = nil
     ) {
         self.extensionAuthToken = extensionAuthToken
         self.lang = lang
         self.deviceId = deviceId
+        self.securedToken = securedToken
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -41,6 +44,7 @@ private struct WalletExtensionSessionState: Codable {
         case lang
         case locale
         case deviceId
+        case securedToken
     }
 
     init(from decoder: Decoder) throws {
@@ -51,6 +55,7 @@ private struct WalletExtensionSessionState: Codable {
         lang = try container.decodeIfPresent(String.self, forKey: .lang)
             ?? container.decodeIfPresent(String.self, forKey: .locale)
         deviceId = try container.decodeIfPresent(String.self, forKey: .deviceId)
+        securedToken = try container.decodeIfPresent(String.self, forKey: .securedToken)
     }
 
     func encode(to encoder: Encoder) throws {
@@ -59,6 +64,7 @@ private struct WalletExtensionSessionState: Codable {
         try container.encodeIfPresent(extensionAuthToken, forKey: .authToken)
         try container.encodeIfPresent(lang, forKey: .lang)
         try container.encodeIfPresent(deviceId, forKey: .deviceId)
+        try container.encodeIfPresent(securedToken, forKey: .securedToken)
     }
 }
 
@@ -447,7 +453,8 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
         let mergedSession = WalletExtensionSessionState(
             extensionAuthToken: incomingState.session.extensionAuthToken ?? existingState.session.extensionAuthToken,
             lang: incomingState.session.lang ?? existingState.session.lang,
-            deviceId: incomingState.session.deviceId ?? existingState.session.deviceId
+            deviceId: incomingState.session.deviceId ?? existingState.session.deviceId,
+            securedToken: incomingState.session.securedToken ?? incomingState.session.securedToken
         )
 
         return WalletExtensionState(
