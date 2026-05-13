@@ -20,6 +20,13 @@ export enum PaymentNetwork {
   tmoney,
 }
 
+export type ACTIVATION_STATE =
+  | 'ACTIVATED'
+  | 'REQUIRES_ACTIVATION'
+  | 'SUSPENDED'
+  | 'DEACTIVATED'
+  | 'INACTIVE';
+
 export interface StartProvisioningOptions {
   primaryAccountSuffix: string;
   cardId: string;
@@ -55,13 +62,12 @@ export interface IsTokenizedResult {
   isTokenized: boolean;
 }
 
-interface AppleWalletCardData {
+export interface AppleWalletCardData {
   serialNumber: number;
-  isRemotePass: boolean;
   primaryAccountIdentifier: string;
-  deviceAccountIdentifier: string;
   primaryAccountNumberSuffix: number;
-  deviceAccountNumberSuffix: number;
+  activationState: ACTIVATION_STATE;
+  deviceName: string;
 }
 
 export interface CheckWalletStatusResult {

@@ -2,6 +2,7 @@ import Foundation
 import PassKit
 import Capacitor
 import WatchConnectivity
+import UIKit
 
 private let walletExtensionAppGroup = "group.kg.bta.mobilebank2.apple-wallet"
 private let walletExtensionStateKey = "apple_wallet_extension_state"
@@ -563,55 +564,52 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
         }
     }
 
-@objc func checkWalletStatus(_ call: CAPPluginCall) {
-      let passLibrary = PKPassLibrary()
-      let localPasses = passLibrary.passes(of: .secureElement)
-          .compactMap { $0 as? PKSecureElementPass }
-      let localCards = localPasses.map { pass in
-          [
-              "serialNumber": pass.serialNumber,
-              "primaryAccountIdentifier": pass.primaryAccountIdentifier ?? "",
-              "deviceAccountIdentifier": pass.deviceAccountIdentifier ?? "",
-              "primaryAccountNumberSuffix": pass.primaryAccountNumberSuffix,
-              "deviceAccountNumberSuffix": pass.deviceAccountNumberSuffix ?? ""
-          ] as [String: Any]
-      }
+ @objc func checkWalletStatus(_ call: CAPPluginCall) {
+     let passLibrary = PKPassLibrary()
+     let iPhoneName = UIDevice.current.name
+     func mapPassData(_ pass: PKSecureElementPass, deviceName: String) -> [String: Any] {
+         return [
+             "serialNumber": pass.serialNumber,
+             "primaryAccountIdentifier": pass.primaryAccountIdentifier ?? "",
+             "primaryAccountNumberSuffix": pass.primaryAccountNumberSuffix,
+             "activationState": getStatusString(pass.passActivationState),
+             "deviceName": deviceName
+         ]
+     }
 
-      guard WCSession.isSupported() else {
-            call.resolve([
-                "iphone": localCards,
-                "watch": [],
-                "watchPaired": false
-            ])
-            return
-        }
-      let session = WCSession.default
-        WatchSessionActivator.shared.activate(session: session) {
-            guard session.isPaired else {
-                call.resolve([
-                    "iphone": localCards,
-                    "watch": [],
-                    "watchPaired": false
-                ])
-                return
-            }
-           let remotePasses = passLibrary.remoteSecureElementPasses
-           let remoteCards = remotePasses.map { pass in
-              [
-                "serialNumber": pass.serialNumber,
-                "primaryAccountIdentifier": pass.primaryAccountIdentifier ?? "",
-                "deviceAccountIdentifier": pass.deviceAccountIdentifier ?? "",
-                "primaryAccountNumberSuffix": pass.primaryAccountNumberSuffix,
-                "deviceAccountNumberSuffix": pass.deviceAccountNumberSuffix ?? ""
-              ] as [String: Any]
-            }
-            call.resolve([
-                "iphone": localCards,
-                "watch": remoteCards,
-                "watchPaired": true
-            ])
-        }
-    }
+     let localCards = passLibrary.passes(of: .secureElement)
+         .compactMap { $0 as? PKSecureElementPass }
+         .map { mapPassData($0, deviceName: iPhoneName) }
+
+     guard WCSession.isSupported() else {
+         call.resolve([
+             "iphone": localCards,
+             "watch": [],
+             "watchPaired": false,
+         ])
+         return
+     }
+
+     let session = WCSession.default
+     WatchSessionActivator.shared.activate(session: session) {
+         let isPaired = session.isPaired
+         var remoteCards: [[String: Any]] = []
+
+         if isPaired {
+             remoteCards = passLibrary.remoteSecureElementPasses.compactMap { pass in
+                 guard let securePass = pass as? PKSecureElementPass else { return nil }
+                 return mapPassData(securePass, deviceName: pass.deviceName)
+             }
+         }
+
+         call.resolve([
+             "iphone": localCards,
+             "watch": remoteCards,
+             "watchPaired": isPaired,
+         ])
+     }
+ }
+
 
     @objc func addPass(_ call: CAPPluginCall) {
         if activeCall != nil {
@@ -648,6 +646,16 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
             resetProvisioningState()
             call.reject(error.localizedDescription, "INVALID_ARGUMENTS")
         }
+    }
+
+    private func getStatusString(_ state: PKSecureElementPass.PassActivationState) -> String {
+            switch state {
+                case .activated: return "ACTIVATED"
+                case .requiresActivation: return "REQUIRES_ACTIVATION"
+                case .suspended: return "SUSPENDED"
+                case .deactivated: return "DEACTIVATED"
+                default: return "INACTIVE"
+            }
     }
 }
 
