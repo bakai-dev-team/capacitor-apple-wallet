@@ -23,13 +23,16 @@ private struct PluginError: LocalizedError {
 private struct WalletExtensionSessionState: Codable {
     let extensionAuthToken: String?
     let lang: String?
+    let deviceId: String?
 
     init(
         extensionAuthToken: String? = nil,
-        lang: String? = nil
+        lang: String? = nil,
+        deviceId: String? = nil
     ) {
         self.extensionAuthToken = extensionAuthToken
         self.lang = lang
+        self.deviceId = deviceId
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -37,6 +40,7 @@ private struct WalletExtensionSessionState: Codable {
         case authToken
         case lang
         case locale
+        case deviceId
     }
 
     init(from decoder: Decoder) throws {
@@ -46,6 +50,7 @@ private struct WalletExtensionSessionState: Codable {
         extensionAuthToken = try container.decodeIfPresent(String.self, forKey: .extensionAuthToken) ?? legacyAuthToken
         lang = try container.decodeIfPresent(String.self, forKey: .lang)
             ?? container.decodeIfPresent(String.self, forKey: .locale)
+        deviceId = try container.decodeIfPresent(String.self, forKey: .deviceId)
     }
 
     func encode(to encoder: Encoder) throws {
@@ -53,6 +58,7 @@ private struct WalletExtensionSessionState: Codable {
         try container.encodeIfPresent(extensionAuthToken, forKey: .extensionAuthToken)
         try container.encodeIfPresent(extensionAuthToken, forKey: .authToken)
         try container.encodeIfPresent(lang, forKey: .lang)
+        try container.encodeIfPresent(deviceId, forKey: .deviceId)
     }
 }
 
@@ -440,7 +446,8 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
 
         let mergedSession = WalletExtensionSessionState(
             extensionAuthToken: incomingState.session.extensionAuthToken ?? existingState.session.extensionAuthToken,
-            lang: incomingState.session.lang ?? existingState.session.lang
+            lang: incomingState.session.lang ?? existingState.session.lang,
+            deviceId: incomingState.session.deviceId ?? existingState.session.deviceId
         )
 
         return WalletExtensionState(
