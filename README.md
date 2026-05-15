@@ -281,6 +281,7 @@ addPass(options: AddPassOptions) => any
 | **`extensionAuthToken`** | <code>string</code> |
 | **`lang`**               | <code>string</code> |
 | **`deviceId`**           | <code>string</code> |
+| **`securedToken`**       | <code>string</code> |
 
 
 #### SyncExtensionStateResult
