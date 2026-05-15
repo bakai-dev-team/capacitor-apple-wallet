@@ -217,6 +217,7 @@ addPass(options: AddPassOptions) => any
 | Prop                           | Type                                                      |
 | ------------------------------ | --------------------------------------------------------- |
 | **`primaryAccountSuffix`**     | <code>string</code>                                       |
+| **`cardholderName`**           | <code>string</code>                                       |
 | **`cardId`**                   | <code>string</code>                                       |
 | **`paymentNetwork`**           | <code><a href="#paymentnetwork">PaymentNetwork</a></code> |
 | **`primaryAccountIdentifier`** | <code>string</code>                                       |

@@ -386,7 +386,7 @@ public class CapAppleWalletPlugin: CAPPlugin, PKAddPaymentPassViewControllerDele
         }
 
         configuration.primaryAccountIdentifier = try requireString(call: call, key: "primaryAccountIdentifier")
-
+        configuration.cardholderName = try requireString(call: call, key: "cardholderName")
         return configuration
     }
 

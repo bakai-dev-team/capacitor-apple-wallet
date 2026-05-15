@@ -29,6 +29,7 @@ export type ACTIVATION_STATE =
 
 export interface StartProvisioningOptions {
   primaryAccountSuffix: string;
+  cardholderName: string;
   cardId: string;
   paymentNetwork: PaymentNetwork;
   primaryAccountIdentifier: string;
